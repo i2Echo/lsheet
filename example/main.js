@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 
-import Lsheet from './lib/index.js'
+import Lsheet from '../src/index.js'
 
 Vue.use(Lsheet)
 

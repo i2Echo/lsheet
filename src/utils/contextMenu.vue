@@ -24,7 +24,7 @@
             menulists: [
               {
                 fnHandler: 'adddata',
-                icoName: 'fa fa-home',
+                icoName: 'fa fa-plus',
                 btnName: 'New'
               },
               {
@@ -64,44 +64,46 @@
     }
   }
 </script>
-<style>
+<style lang="scss" scoped>
   .vue-contextmenu-listWrapper {
-    box-shadow: 2px 2px 2px #cccccc;
+    box-shadow: 2px 2px 2px #ccc;
     display: none;
     position: fixed;
     z-index: 9999;
     top: 0;
     left: 0;
+
+    .context-menu-list {
+      width: 150px;
+      height: 32px;
+      border-radius: 4px;
+      background: #fff;
+      text-decoration: none;
+      list-style: none;
+
+      button {
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+        display: block;
+        outline: 0;
+        border: 0;
+
+        &:hover {
+          background-color: #777;
+          color: #ffffff;
+          border-radius: 2px;
+        }
+
+        i {
+          float: left;
+          padding: 0 10px 0 10px;
+        }
+        span{
+          float: left;
+        }
+      }
+    }
   }
-  .vue-contextmenu-listWrapper .context-menu-list {
-    width: 150px;
-    height: 32px;
-    border-radius: 4px;
-    background: #F3F3F3;
-    text-decoration: none;
-    list-style: none;
-  }
-  .vue-contextmenu-listWrapper .context-menu-list button {
-    cursor: pointer;
-    width: 100%;
-    height: 100%;
-    display: block;
-    outline: 0;
-    border: 0;
-  }
-  .vue-contextmenu-listWrapper .context-menu-list button i,  .vue-contextmenu-listWrapper .context-menu-list button span {
-    float: left;
-  }
-  .vue-contextmenu-listWrapper .context-menu-list button i{
-    padding: 0 10px 0 10px;
-  }
-  .vue-contextmenu-listWrapper .context-menu-list button:hover {
-    box-shadow: 0px 1px 3px rgba(34, 25, 25, 0.2);
-    color: #ffffff;
-    border-radius: 4px;
-    background: -webkit-linear-gradient(bottom, #5a6a76 , #2e3940); /* Safari 5.1 - 6.0 */
-    background: -o-linear-gradient(bottom, #5a6a76, #2e3940); /* Opera 11.1 - 12.0 */
-    background: -moz-linear-gradient(bottom, #5a6a76, #2e3940); /* Firefox 3.6 - 15 */
-    background: linear-gradient(to bottom, #5a6a76 , #2e3940);
-  }
+
 </style>

@@ -1,0 +1,181 @@
+{
+  "sheetId": "sheet1",
+  "sheetDisplayName": "测试表单",
+  "hasActionBtn": true,
+  "gridLayout": [
+    [
+      [2,4,2,4],
+      [2,4,2,4]
+    ],
+    [
+      [2,4,2,4],
+      [3,3,3,3]
+    ]
+  ],
+  "blocks": [
+    {
+      "blockName": "基本信息",
+      "isExpanded": true,
+      "controls": [
+        [
+          {
+            "type": "sheetLabel",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": "",
+              "uid": "uid_1"
+            }
+          },
+          {
+            "type": "sheetTextbox",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": "",
+              "uid": "uid_2"
+            }
+          },
+          {
+            "type": "sheetLabel",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": "",
+              "uid": "uid_3"
+            }
+          },
+          {
+            "type": "sheetTextbox",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": "",
+              "uid": "uid_4"
+            }
+          }
+        ],
+        [
+          {
+            "type": "sheetLabel",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": "",
+              "uid": "uid_5"
+            }
+          },
+          {
+            "type": "sheetTextbox",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": "",
+              "uid": "uid_6"
+            }
+          },
+          {
+            "type": "sheetLabel",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": "",
+              "uid": "uid_7"
+            }
+          },
+          {
+            "type": "sheetTextbox",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": "",
+              "uid": "uid_8"
+            }
+          }
+        ]
+      ]
+    },
+    {
+      "blockName": "更多信息",
+      "isExpanded": true,
+      "controls": [
+        [
+          {
+            "type": "sheetLabel",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": "",
+              "uid": "uid_9"
+            }
+          },
+          {
+            "type": "sheetTextbox",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": "",
+              "uid": "uid_10"
+            }
+          },
+          {
+            "type": "sheetLabel",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": "",
+              "uid": "uid_11"
+            }
+          },
+          {
+            "type": "sheetTextbox",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": "",
+              "uid": "uid_12"
+            }
+          }
+        ],
+        [
+          {
+            "type": "sheetLabel",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": "",
+              "uid": "uid_13"
+            }
+          },
+          {
+            "type": "sheetTextbox",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": "",
+              "uid": "uid_14"
+            }
+          },
+          {
+            "type": "sheetLabel",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": "",
+              "uid": "uid_15"
+            }
+          },
+          {
+            "type": "sheetTextbox",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": "",
+              "uid": "uid_16"
+            }
+          }
+        ]
+      ]
+    }
+  ]
+}

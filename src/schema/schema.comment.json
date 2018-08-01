@@ -1,0 +1,166 @@
+{
+  "sheetId": "sheet1",
+  "sheetDisplayName": "测试表单",
+  "hasActionBtn": true,
+  "editMode": false,
+  "gridLayout": [ //布局数据
+    [ // 块block
+      [2,4,2,4], // 每行的分配情况
+      [3,3,3,3]
+    ],
+    [
+      [2,4,2,4],
+      [3,3,3,3]
+    ]
+  ],
+  "blocks": [ // 表单数据(结构对应gridlayout)
+    {
+      "blockName": "基本信息",
+      "isExpanded": true,
+      "controls": [
+        [ // 每行数据,对应布局的分配
+          {
+            "type": "sheetLabel",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": ""
+            }
+          },
+          {
+            "type": "sheetTextbox",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": ""
+            }
+          },
+          {
+            "type": "sheetLabel",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": ""
+            }
+          },
+          {
+            "type": "sheetTextbox",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": ""
+            }
+          }
+        ],
+        [
+          {
+            "type": "sheetLabel",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": ""
+            }
+          },
+          {
+            "type": "sheetTextbox",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": ""
+            }
+          },
+          {
+            "type": "sheetLabel",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": ""
+            }
+          },
+          {
+            "type": "sheetTextbox",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": ""
+            }
+          }
+        ]
+      ]
+    },
+    {
+      "blockName": "更多信息",
+      "isExpanded": true,
+      "controls": [
+        [ // 每行数据,对应布局的分配
+          {
+            "type": "sheetLabel",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": ""
+            }
+          },
+          {
+            "type": "sheetTextbox",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": ""
+            }
+          },
+          {
+            "type": "sheetLabel",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": ""
+            }
+          },
+          {
+            "type": "sheetTextbox",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": ""
+            }
+          }
+        ],
+        [
+          {
+            "type": "sheetLabel",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": ""
+            }
+          },
+          {
+            "type": "sheetTextbox",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": ""
+            }
+          },
+          {
+            "type": "sheetLabel",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": ""
+            }
+          },
+          {
+            "type": "sheetTextbox",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": ""
+            }
+          }
+        ]
+      ]
+    }
+  ]
+}

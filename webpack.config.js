@@ -1,13 +1,30 @@
 var path = require('path')
 var webpack = require('webpack')
 
+let entryPath, ext = {}
+if (process.env.NODE_ENV === 'production') {
+  entryPath = './src/index.js'
+  ext = {
+    vue: {
+      root: 'Vue',
+      commonjs: 'vue',
+      commonjs2: 'vue',
+      amd: 'vue'
+    }
+  }
+}else{
+  entryPath = './example/main.js'
+}
+
 module.exports = {
-  entry: './src/main.js',
+  // entry: './src/main.js',
+  entry: entryPath,
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/dist/',
-    filename: 'Lsheet.js'
+    filename: 'bundle.js'
   },
+  externals: ext,
   module: {
     rules: [
       {
