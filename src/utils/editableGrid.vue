@@ -155,16 +155,9 @@ export default {
         
       }
       else{
-        // debugger
-        // let elem = a.currentTarget
-        // if(elem.classList.contains('ls-block')){
-        //   this.contextMenuDataForDelBlock.axios = {x, y}
-        // }else{
-          this.contextMenuDataForAddBlock.axios = {x, y}
-        // }
-        
+        this.contextMenuDataForAddBlock.axios = {x, y}
       }
-      console.log(x, y)
+      // console.log(x, y)
     },
     getIndex: function (i, j) {
       let index = 0;
@@ -177,21 +170,22 @@ export default {
     addBlock: function() {
       console.log('addblock')
       let block = new Array()
-
+      let rowDataSplit = JSON.parse(JSON.stringify(this.rowDataSplit))
       block[0] = this.rowSplit
       this.gridLayout.push(block)
-      let blockData = {"blockName": "标题","isExpanded": true, controls:[this.rowDataSplit]}
+      let blockData = {"blockName": "标题","isExpanded": true, controls:[rowDataSplit]}
       this.blockDatas.push(blockData)
     },
     insertUpRow: function(i, currIndex) {
       this.gridLayout[i].splice(currIndex, 0, this.rowSplit)
-
-      this.blockDatas[i].controls.splice(currIndex, 0, this.rowDataSplit)
+      let rowDataSplit = JSON.parse(JSON.stringify(this.rowDataSplit))
+      this.blockDatas[i].controls.splice(currIndex, 0, rowDataSplit)
+      console.log(this.blockDatas)
     },
     insertDownRow: function(i, currIndex) {
       this.gridLayout[i].splice(currIndex+1, 0, this.rowSplit)
-
-      this.blockDatas[i].controls.splice(currIndex+1, 0, this.rowDataSplit)
+      let rowDataSplit = JSON.parse(JSON.stringify(this.rowDataSplit))
+      this.blockDatas[i].controls.splice(currIndex+1, 0, rowDataSplit)
     },
     deleteThisRow: function(i, currIndex) {
       this.gridLayout[i].splice(currIndex, 1)
@@ -199,6 +193,7 @@ export default {
     },
     deleteThisBlock: function(i) {
       console.log('delblk')
+      console.log(i)
       this.gridLayout.splice(i, 1)
       this.blockDatas.splice(i, 1)
     },
@@ -225,9 +220,10 @@ export default {
     },
     updateControlPosition: function (from, to){ //{block: z, row: y, col: x}
       let temp = JSON.parse(JSON.stringify(this.blockDatas[from.block].controls[from.row][from.col]))
-      // debugger
-      this.blockDatas[from.block].controls[from.row][from.col] = {}
-      this.blockDatas[to.block].controls[to.row][to.col] = temp
+ 
+      this.$set(this.blockDatas[from.block].controls[from.row], from.col, {})
+
+      this.$set(this.blockDatas[to.block].controls[to.row],[to.col], temp)
     },
     dragInit: function () {
       const selector = '[data-type=sheetfield]'
@@ -241,14 +237,17 @@ export default {
 
         for(let i=0; i<elems.length; i++){
           let obj = elems[i]
-          
-          console.log("reg: "+ i)
+          // console.log("reg: "+ i)
           moveByDrag(
             obj,
             function(){  //onMoving: 
               for (let i = 0; i < checkArea.length; i++) {
                   if (isBelong(obj, checkArea[i])) {
-                    checkArea[i].style.border= "2px dashed #1867c0"
+                    if(checkArea[i].childElementCount === 0){
+                      checkArea[i].style.border= "2px dashed #1867c0"
+                    }else{
+                      checkArea[i].style.border= "2px dashed #F44336"
+                    }
                   } else {
                     checkArea[i].style.border= "1px dashed #ccc"
                   }
@@ -256,17 +255,18 @@ export default {
             },
             function(){ //onMoved: 
               for (let i = 0; i < checkArea.length; i++) {
-                  if (isBelong(obj, checkArea[i]) && checkArea[i].childElementCount === 0) {
+                  if (isBelong(obj, checkArea[i])) {
 
-                    let from = that.getControlPosition(obj)
-                    let to = that.getGridPosition(checkArea[i])
+                    if(checkArea[i].childElementCount === 0){
+                      let from = that.getControlPosition(obj)
+                      let to = that.getGridPosition(checkArea[i])
 
-                    checkArea[i].style.border= "1px dashed #ccc"
-                    checkArea[i].appendChild(obj)
+                      // checkArea[i].removeAttribute('style')
+                      that.updateControlPosition(from, to)
 
-                    that.updateControlPosition(from, to)
-
-                    break
+                      break
+                    }
+                    checkArea[i].removeAttribute('style')
                   }
               }
             },

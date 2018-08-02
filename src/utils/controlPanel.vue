@@ -81,11 +81,11 @@ export default {
     width: 100%;
     display: flex;
     flex-direction: column;
-    border: 1px solid #b3d4fc;
+    // border: 1px solid #b3d4fc;
 
     .panel-body {
       flex: 1;
-
+      overflow: auto;
       .panel-group {
         background-color: #f5f5f5;
         &-header {

@@ -1,12 +1,17 @@
 import genUid from './helper.js'
 
-export function resizeByDrag (id) {
+/**
+ * 
+ * @param {string} id 元素id
+ * @param {string} location 元素相对位置[prev, next]
+ */
+export function resizeByDrag (id, location = 'next', dElem) {
   let elem = document.querySelector('#'+id)
   // console.log('initresize')
   // console.log(elem)
   if(!elem) return
   // let prevElem = elem.previousElementSibling
-  let nextElem = elem.nextElementSibling
+  let changeElem = dElem ? dElem : (location=='next' ? elem.nextElementSibling : elem.previousElementSibling) 
   
   const MAX_WIDTH = 500
   const MIN_WIDTH = 200
@@ -14,18 +19,18 @@ export function resizeByDrag (id) {
     // console.log('start')
     let startPosition = e.pageX
     // let pw = prevElem.offsetWidth
-    let nw = nextElem.offsetWidth
+    let elemWidth = changeElem.offsetWidth
     document.onmousemove = function (e) {
 
         let move = e.pageX - startPosition
         // console.log(move)
 
-        let finalW = nw - move;
+        let finalW = elemWidth - (location=='next' ? move : -move)
         finalW = finalW > MAX_WIDTH ? MAX_WIDTH : (finalW < MIN_WIDTH ? MIN_WIDTH : finalW)
         console.log(finalW)
-        nextElem.style.width = finalW + 'px'
+        changeElem.style.width = finalW + 'px'
 
-        e.preventDefault();
+        e.preventDefault()
 
     }
     document.onmouseup = function (e) {
@@ -84,10 +89,11 @@ export function moveByDrag (obj, onMoving, onMoved) {
                 }
                 obj.removeAttribute('style')
                 document.onmousemove = null
-                isDragging = false
+                // isDragging = false
             }else{
                 clearTimeout(timerHandle)
             }
+            isDragging = false
         };
         // return false
     }

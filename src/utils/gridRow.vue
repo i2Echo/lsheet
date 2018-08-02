@@ -23,7 +23,7 @@ export default {
     colsData: {
       type: Array
     }
-  }
+  },
 }
 </script>
 <style lang="scss" scoped>

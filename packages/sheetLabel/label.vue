@@ -21,9 +21,7 @@ export default {
       })
     }
   },
-  mounted() {
-    
-  }
+  
 }
 </script>
 

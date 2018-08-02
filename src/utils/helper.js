@@ -12,7 +12,7 @@ export function genUid(field ='uid') {
  */
 export function isBelong(elem, target) {
   let point = getCenterPoint(elem)
-  console.log(point, target.offsetLeft, target.offsetTop)
+  // console.log(point, target.offsetLeft, target.offsetTop)
   let base = {left: target.offsetParent.offsetLeft, top: target.offsetParent.offsetTop}
   if(base.left + target.offsetLeft <= point.x 
       && base.top + target.offsetTop <= point.y 

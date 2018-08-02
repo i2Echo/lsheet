@@ -1,6 +1,21 @@
 <template>
   <div class="l-sheet" v-if="sheetData">
-    <div class="ls-left">
+    <div v-if="(editMode && isFieldListExpanded)" class="ls-left resizePanel">
+      <div class="expanded-bar">
+        <div class="expanded-bar__title">
+          表单字段
+          <i class="fa fa-angle-double-left icon-btn" @click="()=>isFieldListExpanded= !isFieldListExpanded"></i>
+        </div>
+      </div>
+      <div class="expanded-panel">
+        表单字段
+      </div>
+    </div>
+    <div v-if="editMode && !isFieldListExpanded" class="collapsed-bar left-bar">
+      <i class="fa fa-angle-double-right icon-btn" @click="()=>isFieldListExpanded= !isFieldListExpanded"></i>
+    </div>
+    <div v-if="(editMode && isFieldListExpanded)" id="resizableFieldList" class="resizable"></div>
+    <div class="ls-main">
       <div class="ls-header">
         <div class="ls-header__title"> {{sheetData.sheetDisplayName}} </div>
         <div class="ls-header__action">
@@ -32,8 +47,8 @@
       </div>
     </div>
     
-    <div v-if="(editMode && isPanelExpanded)" id="resizable"></div>
-    <div v-if="(editMode && isPanelExpanded)" class="ls-right">
+    <div v-if="(editMode && isPanelExpanded)" id="resizablePanel" class="resizable"></div>
+    <div v-if="(editMode && isPanelExpanded)" class="ls-right resizePanel">
       <div class="expanded-bar">
         <div class="expanded-bar__title">
           <i class="fa fa-angle-double-right icon-btn" @click="()=>isPanelExpanded= !isPanelExpanded"></i>
@@ -44,7 +59,7 @@
         <control-panel></control-panel>
       </div>
     </div>
-    <div v-if="editMode && !isPanelExpanded" class="collapsed-bar">
+    <div v-if="editMode && !isPanelExpanded" class="collapsed-bar right-bar">
       <i class="fa fa-angle-double-left icon-btn" @click="()=>isPanelExpanded= !isPanelExpanded"></i>
     </div>
   </div>
@@ -84,6 +99,7 @@ export default {
   },
   data: () => ({
      isPanelExpanded: false,
+     isFieldListExpanded: true,
      editMode: false
   }),
   render: function(){
@@ -91,17 +107,14 @@ export default {
   },
   mounted(){
     this.editMode = this.isEditMode
-    resizeByDrag('resizable')
-    // debugger
+    
+    this.initDragResize()
   },
   watch: {
 
   },
   updated() {
-    if(this.isPanelExpanded){
-      resizeByDrag('resizable')
-    }
-      
+    this.initDragResize()
   },
   methods: {
     changeMode: function () {
@@ -123,7 +136,15 @@ export default {
     getDataById: function (id) {
       
     },
-    
+    initDragResize: function () {
+      if(this.isPanelExpanded){
+        resizeByDrag('resizablePanel')
+      }
+      if(this.isFieldListExpanded){
+        let ele = document.querySelector('.ls-left.resizePanel')
+        resizeByDrag('resizableFieldList', 'prev', ele)
+      }
+    }
   }
 }
 </script>
@@ -134,7 +155,7 @@ export default {
     height: 100%;
     display: flex;
 
-    .ls-left {
+    .ls-main {
       height: 100%;
       flex: 1;
       
@@ -167,6 +188,7 @@ export default {
         width: 100%;
         padding: 15px;
         height: calc(100% - 60px);
+        overflow: auto;
         &-title {
           color: red;
           height: 40px;
@@ -211,9 +233,10 @@ export default {
         }
       }
     }
-    .ls-right {
+    .resizePanel {
       height: 100%;
       width: 300px;
+      border: 1px solid #b3d4fc;
       .expanded-bar {
 
         height: 32px;
@@ -233,14 +256,37 @@ export default {
         height: calc(100% - 32px);
       }
     }
+    .ls-left {
+      .expanded-bar {
+        // position: relative;
+        i {
+          float: right;
+          margin-top: 7px;
+          margin-right: -5px;
+          text-align: center;
+        }
+      }
+    }
+    // .ls-right {
+    //   .expanded-bar {
+    //     text-align: left;
+    //   }
+    // }
     .collapsed-bar {
       width: 36px;
       height: 100%;
       background-color: #f5f5f5;
       border: 1px solid #b3d4fc;
       position: absolute;
-      right: 0;
-      top: 0;
+      
+      &.left-bar {
+        left: 0;
+        top: 0;
+      }
+      &.right-bar {
+        right: 0;
+        top: 0;
+      }
     }
     .icon-btn {
       width: 18px;
@@ -256,7 +302,7 @@ export default {
 
   }
 
-  #resizable {
+  .resizable {
     width: 1px;
     height: 100%;
     background-color: #ccc;
