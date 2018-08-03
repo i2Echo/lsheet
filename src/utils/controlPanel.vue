@@ -1,7 +1,7 @@
 <template>
   <div class="ls-control-panel">
 
-    <div class="panel-body">
+    <div class="panel-content">
       <div class="panel-group" v-for="(group, index) in properties.groups" :key="index">
         <div class="panel-group-header">
           <i :class="['fa', 'fa-' + (group.isGroupExpanded ? 'minus' : 'plus') + '-square-o']" @click="()=>group.isGroupExpanded = !group.isGroupExpanded"></i>
@@ -16,7 +16,7 @@
         
       </div>
     </div>
-    <div class="panel-footer">
+    <div class="panel-bottom">
     </div>
   </div>
 </template>
@@ -83,7 +83,7 @@ export default {
     flex-direction: column;
     // border: 1px solid #b3d4fc;
 
-    .panel-body {
+    .panel-content {
       flex: 1;
       overflow: auto;
       .panel-group {
@@ -128,7 +128,7 @@ export default {
       }
       
     }
-    .panel-footer {
+    .panel-bottom {
       height: 100px;
       // background-color: #ccc;
       border-top: 1px solid #ddd;

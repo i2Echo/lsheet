@@ -1,0 +1,80 @@
+{
+  "id": "57",
+  "code": "CUST_LeaveProcess",
+  "text": "请假流程",
+
+  "children": [{
+    "id": "150",
+    "code": "ApplyName",
+    
+    "text": "申请人",
+    "dataType": null,
+
+    "children": null
+  }, {
+    "id": "151",
+    "code": "ApplyDepartmentID",
+    "parentId": "2",
+    "text": "申请部门",
+    "dataType": null,
+
+    "children": null
+  }, {
+    "id": "152",
+    "code": "ApplyDate",
+    "parentId": "2",
+    "text": "申请日期",
+    "dataType": null,
+
+    "children": null
+  }, {
+    "id": "153",
+    "code": "Job",
+    "parentId": "2",
+    "text": "职务",
+    "dataType": null,
+
+    "children": null
+  }, {
+    "id": "154",
+    "code": "EntryDate",
+    "parentId": "2",
+    "text": "入职日期",
+    "dataType": null,
+
+    "children": null
+  }, {
+    "id": "155",
+    "code": "Account",
+    "parentId": "2",
+    "text": "事由",
+    "dataType": null,
+
+    "children": null
+  }, {
+    "id": "156",
+    "code": "JobAgent",
+    "parentId": "2",
+    "text": "职务代理人",
+    "dataType": null,
+
+    "children": null
+  }, {
+    "id": "161",
+    "code": "Total",
+    "parentId": "2",
+    "text": "总计",
+    "dataType": null,
+
+    "children": null
+  }, {
+    "id": "242",
+    "code": "ShenPiYiJian",
+    "parentId": "2",
+    "text": "审批意见",
+    "dataType": null,
+
+    "children": null
+  }]
+}
+

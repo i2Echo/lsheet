@@ -31,7 +31,9 @@ export default {
     text-align: left;
     background-color: #f5f5f5;
     padding: 0 15px;
-    min-width: 100px;
+    min-width: 50px;
+    word-wrap: break-word; 
+    word-break:break-all;
     // @media (min-width: 576px){
     //   max-width: 200px;
     //   overflow: hidden;
@@ -39,7 +41,7 @@ export default {
     //   white-space: nowrap;
     // }
 
-    height: 42px;
+    // height: 42px;
     line-height: 42px;
 
     // > label {

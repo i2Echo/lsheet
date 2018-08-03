@@ -1,45 +1,106 @@
 <template>
-  <div class="ls-container js-add-block" @contextmenu.stop="showMenu">
-    <context-menu :contextMenuData="contextMenuDataForAddBlock"
-      @addBlock="addBlock">
-    </context-menu>
-    <!-- <div style="width:100px;height:100px;background:red;"></div> -->
-
-    <div v-if="gridLayout.length">
-      <div class="ls-block" v-for="(block, i) in gridLayout" :key="i" :tabindex="i" @contextmenu.stop="showMenu(i, 'block')">
-        <context-menu :contextMenuData="contextMenuDataForDelBlock"
-          :transferIndex="blockIndex"
-          @deleteThisBlock="deleteThisBlock(i)">
-        </context-menu>
-        <div class="ls-block-title">
-          <i class="fa fa-angle-right"></i>
-          <input type="text" v-model="blockDatas[i].blockName">
+  <div class="wrapper">
+    <!-- left-bar -->
+    <div :class="['ls-left', 'resizePanel', isFieldListExpanded ? 'expanded' : 'collapsed']">
+      <div v-if="isFieldListExpanded" class="expanded-panel">
+        <div class="expanded-panel-header">
+          <div class="expanded-panel-header__title">
+            表单字段
+            <i class="fa fa-angle-double-left icon-btn" @click="toggleLeftBar"></i>
+          </div>
         </div>
-        <div v-for="(row, j) in block" :key="j" @contextmenu.stop="showMenu(getIndex(i, j), 'row')" :tabindex="j">
-          <grid-row :cols="row" :colsData="blockDatas ? blockDatas[i].controls[j]:null"></grid-row>
-          <context-menu :contextMenuData="contextMenuData"
-            :transferIndex="transferIndex"
-            @insertUpRow="insertUpRow(i, j)"
-            @insertDownRow="insertDownRow(i, j)"
-            @deleteThisRow="deleteThisRow(i, j)">
-          </context-menu>
+        <div class="expanded-panel-body">
+          <tree :text="sheetFields.text" :children="sheetFields.children" :depth="0"></tree>
         </div>
       </div>
-      
-      
+      <div v-else class="collapsed-bar left-bar">
+        <i class="fa fa-angle-double-right icon-btn" @click="toggleLeftBar"></i>
+      </div>
     </div>
+    <div v-if="isFieldListExpanded" id="resizableFieldList" class="resizable-line"></div>
+
+
+    <div class="ls-main">
+      <div class="ls-header">
+        <div class="ls-header__title"> {{sheetDisplayName}} </div>
+        <div class="ls-header__action">
+          <button type="button" class="btn">
+            临时占位
+          </button>
+        </div>
+      </div>
+      <div class="ls-content ls-container-fluid edit-mode" tabindex="0" @click.native="getFocusData">
+        <div class="ls-content-title"> {{sheetDisplayName}} </div>
+
+        <div class="ls-content-body js-add-block" @contextmenu.stop="showMenu">
+          <context-menu :contextMenuData="contextMenuDataForAddBlock"
+            @addBlock="addBlock">
+          </context-menu>
+          <!-- <div style="width:100px;height:100px;background:red;"></div> -->
+
+          <div v-if="gridLayout.length">
+            <div class="ls-block" v-for="(block, i) in gridLayout" :key="i" :tabindex="i" @contextmenu.stop="showMenu(i, 'block')">
+              <context-menu :contextMenuData="contextMenuDataForDelBlock"
+                :transferIndex="blockIndex"
+                @deleteThisBlock="deleteThisBlock(i)">
+              </context-menu>
+              <div class="ls-block-title">
+                <i class="fa fa-angle-right"></i>
+                <input type="text" v-model="blockDatas[i].blockName">
+              </div>
+              <div v-for="(row, j) in block" :key="j" @contextmenu.stop="showMenu(getIndex(i, j), 'row')" :tabindex="j">
+                <grid-row :cols="row" :colsData="blockDatas ? blockDatas[i].controls[j]:null"></grid-row>
+                <context-menu :contextMenuData="contextMenuData"
+                  :transferIndex="transferIndex"
+                  @insertUpRow="insertUpRow(i, j)"
+                  @insertDownRow="insertDownRow(i, j)"
+                  @deleteThisRow="deleteThisRow(i, j)">
+                </context-menu>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+    
+    <!-- right-bar -->
+    <div v-if="isPropsPanelExpanded" id="resizableProps" class="resizable-line"></div>
+    <div :class="['ls-right', 'resizePanel', isPropsPanelExpanded ? 'expanded' : 'collapsed']">
+      <div v-if="isPropsPanelExpanded" class="expanded-panel">
+        <div class="expanded-panel-header">
+          <div class="expanded-panel-header__title">
+            <i class="fa fa-angle-double-right icon-btn" @click="toggleRightBar"></i>
+            属性
+          </div>
+        </div>
+        <div class="expanded-panel-body">
+          <control-panel></control-panel>
+        </div>
+      </div>
+      <div v-else class="collapsed-bar right-bar">
+        <i class="fa fa-angle-double-left icon-btn" @click="toggleRightBar"></i>
+      </div>
+    </div>
+
   </div>
 </template>
 <script>
 import contextMenu from './contextMenu.vue'
 import gridRow from './gridRow.vue'
+import controlPanel from './controlPanel.vue'
+import tree from './tree.vue'
+
 import {resizeByDrag, moveByDrag} from './drag.js'
 import {genUid, isBelong} from './helper.js'
 
 export default {
   components: {
     contextMenu,
-    gridRow
+    gridRow,
+    controlPanel,
+    tree
   },
   data: () => ({
     contextMenuDataForAddBlock: {
@@ -96,7 +157,10 @@ export default {
       }
     },
     rowSplit: [2, 4, 2, 4],
-    rowDataSplit: [{}, {}, {}, {}]
+    rowDataSplit: [{}, {}, {}, {}],
+
+    isPropsPanelExpanded: false,
+    isFieldListExpanded: true,
   }),
   props:{
     gridLayout: {
@@ -115,14 +179,18 @@ export default {
     blockDatas: {
       type: Array,
       default: () => ([])
-    }
+    },
+    sheetFields: {
+      type:Object
+    },
+    sheetDisplayName: ''
   },
   mounted() {
-    this.setupContextMenuData()
-    this.dragInit()
+    this.init()
   },
   updated() {
     this.dragInit()
+    this.initDragResize()
   },
   watch: {
 
@@ -131,6 +199,12 @@ export default {
     
   },
   methods: {
+    init: function () {
+      this.setupContextMenuData()
+      this.dragInit()
+      this.initDragResize()
+    },
+
     setupContextMenuData: function() {
       this.contextMenuDataForAddBlock.menulists.push(this.menuListTpl.addBlock)
       this.contextMenuDataForDelBlock.menulists.push(this.menuListTpl.deleteThisBlock)
@@ -230,7 +304,7 @@ export default {
       
       let that = this
       setTimeout(function(){
-        const dom = document.querySelector('.editMode')
+        const dom = document.querySelector('.edit-mode')
         let elems = dom.querySelectorAll(selector)
         let checkArea = dom.querySelectorAll('.grid-border > div')
         if(elems.length < 1) return
@@ -261,7 +335,7 @@ export default {
                       let from = that.getControlPosition(obj)
                       let to = that.getGridPosition(checkArea[i])
 
-                      // checkArea[i].removeAttribute('style')
+                      checkArea[i].removeAttribute('style')
                       that.updateControlPosition(from, to)
 
                       break
@@ -274,14 +348,69 @@ export default {
         }
       }, 0)
       
+    },
+
+    getFocusData: function () {
+      console.log("click")
+      let focusedElement = document.activeElement
+      console.log(focusedElement)
+    },
+    initDragResize: function () {
+      if(this.isPropsPanelExpanded){
+        resizeByDrag('resizableProps')
+      }
+      if(this.isFieldListExpanded){
+        resizeByDrag('resizableFieldList', 'prev')
+      }
+    },
+
+    toggleLeftBar: function () {
+      const ele = document.querySelector('.ls-left')
+      ele.removeAttribute('style')
+      this.isFieldListExpanded = !this.isFieldListExpanded
+    },
+    toggleRightBar: function () {
+      const ele = document.querySelector('.ls-right')
+      ele.removeAttribute('style')
+      this.isPropsPanelExpanded = !this.isPropsPanelExpanded
     }
   }
 }
 </script>
 <style lang="scss">
-.js-add-block {
+.wrapper {
   height: 100%;
+  display: flex;
+  .ls-main {
+    height: 100%;
+    flex: 1;
+    padding: 10px;
 
+    .ls-header {
+      height: 60px;
+      width: 100%;
+
+      &__title {
+        height: 24px;
+        line-height: 24px;
+        font-size: 14px;
+        color: #999;
+      }
+
+      &__action {
+
+        .btn {
+          width: 80px;
+          height: 30px;
+          padding: 0 10px;
+          color: #fff;
+          background-color: #009688;
+          border: none;
+          cursor: pointer;
+        }
+      }
+    }
+  }
   .ls-block {
     padding: 10px 0;
 
@@ -309,8 +438,89 @@ export default {
         }
       }
     }
-    
-    
+  }
+
+  .resizePanel {
+    height: 100%;
+
+    &.expanded {
+      width: 300px;
+    }
+    &.collapsed {
+      width: 36px;
+    }
+
+    .expanded-panel {
+      border: 1px solid #b3d4fc;
+      width: 100%;
+      height: 100%;
+
+      &-header {
+
+        height: 32px;
+        line-height: 32px;
+        padding: 0 15px;
+        width: 100%;
+        text-align: left;
+        border-bottom: 1px solid #b3d4fc;
+
+        &__title {
+          font-size: 14px;
+        }
+      }
+      &-body {
+        height: calc(100% - 32px);
+      }
+    }
+
+    &.ls-left {
+      .expanded-panel-header {
+        // position: relative;
+        i {
+          float: right;
+          margin-top: 7px;
+          margin-right: -5px;
+          text-align: center;
+        }
+      }
+    }
+
+    .collapsed-bar {
+      // width: 36px;
+      width: 100%;
+      height: 100%;
+      background-color: #f5f5f5;
+      border: 1px solid #b3d4fc;
+      // position: absolute;
+      
+      // &.left-bar {
+      //   left: 0;
+      //   top: 0;
+      // }
+      // &.right-bar {
+      //   right: 0;
+      //   top: 0;
+      // }
+    }
+  }
+  
+}
+
+.resizable-line {
+  width: 1px;
+  height: 100%;
+  background-color: #ccc;
+  cursor: ew-resize;
+  position: relative;
+
+  &::after {
+    content: "";
+    display: block;
+    height: 100%;
+    width: 8px;
+    position: absolute;
+    left: -3px;
+    z-index: 10;
   }
 }
 </style>

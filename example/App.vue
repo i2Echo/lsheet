@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Lsheet :sheetData="sheetData" :isEditMode="true"></Lsheet>
+    <Lsheet :sheetData="sheetData" :sheetFields="sheetFields" :isEditMode="true"></Lsheet>
   </div>
 </template>
 
@@ -11,11 +11,13 @@ export default {
   name: 'app',
   data () {
     return {
-      sheetData: null
+      sheetData: null,
+      sheetFields: null,
     }
   },
   created() {
     this.getData()
+    this.getSheetField()
   },
   methods: {
     getData: function () {
@@ -26,6 +28,20 @@ export default {
           console.log(response)
           let data = response.data
           that.sheetData = typeof data === 'string' ? JSON.parse(data) : data
+        })
+        .catch(function (error) {
+          // handle error
+          console.error(error)
+        })
+    },
+    getSheetField: function () {
+      const that = this
+      axios.get('../src/schema/sheetFields.json')
+        .then(function (response) {
+          // handle success
+          console.log(response)
+          let data = response.data
+          that.sheetFields = typeof data === 'string' ? JSON.parse(data) : data
         })
         .catch(function (error) {
           // handle error

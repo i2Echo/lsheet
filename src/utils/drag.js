@@ -57,6 +57,7 @@ export function moveByDrag (obj, onMoving, onMoved) {
             obj.style.position = "absolute"
             obj.style.zIndex = '1000'
             obj.style.width = obj.clientWidth + 'px'
+            obj.style.minWidth = '100px'
             obj.style.height = obj.clientHeight + 'px'
             obj.style.border = '2px dashed #bcbcbc'
             obj.style.cursor = 'move'
