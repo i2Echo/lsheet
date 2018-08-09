@@ -1,7 +1,15 @@
 import Lsheet from './Lsheet.vue'
 
-Lsheet.install = function (Vue){
+const lsheet = {}
+
+lsheet.install = function (Vue){
     Vue.component(Lsheet.name, Lsheet)
 }
 
-export default Lsheet
+lsheet.component = Lsheet
+
+if (typeof window !== 'undefined' && window.Vue) {
+    window.Vue.use(lsheet);
+}
+
+export default lsheet

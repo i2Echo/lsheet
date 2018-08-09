@@ -1,160 +1,256 @@
-var sheetData = {
-  sheetId: 'sheet1',
-  sheetDisplayName: '测试表单',
-  gridLayout: [
+var sheetData ={
+  "sheetId": "Sheet1",
+  "sheetDisplayName": "测试表单",
+  "hasActionBtn": true,
+  "gridLayout": [
     [
-      {
-        id: 'c1',
-        col: 6,
-      }, 
-      {
-        id: 'c2',
-        col: 6,
-      },
+      [2,4,2,4],
+      [2,10],
+      [2,4,2,4]
     ],
     [
-      {
-        id: 'c3',
-        col: 6,
-      }, 
-      {
-        id: 'c4',
-        col: 6,
-      },
-    ],
+      [2,4,2,4],
+      [12]
+    ]
   ],
-  blocks: [
+  "blocks": [
     {
-      blockName: '基本信息',
-      isexpanded: true,
-      controls: [
-        {
-          type: 'sheetTextbox',
-          data: {
-            displayText: '名称 1dsaaa dsaaaa aaaaaa aaadsssssss',
-            controlId: 'c1',
-            fieldId: 'name1',
-            value: ''
+      "blockName": "基本信息",
+      "isExpanded": true,
+      "controls": [
+        [
+          {
+            "type": "SheetLabel",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": "",
+              "uid": "uid_1"
+            }
+          },
+          {
+            "type": "SheetTextBox",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": "",
+              "uid": "uid_2"
+            }
+          },
+          {
+            "type": "SheetLabel",
+            "fieldData":{
+              "displayText": "日期",
+              "fieldId": "date",
+              "value": "",
+              "uid": "uid_11"
+            }
+          },
+          {
+            "type": "SheetTime",
+            "fieldData":{
+              "displayText": "日期",
+              "fieldId": "date",
+              "value": "",
+              "uid": "uid_21"
+            }
           }
-          
-        },
-        {
-          type: 'sheetTextbox',
-          data: {
-            displayText: '名称2rewwwwwwwwwwww',
-            controlId: 'c2',
-            fieldId: 'name2',
-            value: ''
+        ],
+        [
+          {
+            "type": "SheetLabel",
+            "fieldData":{
+              "displayText": "审批意见",
+              "fieldId": "spyj",
+              "value": "",
+              "uid": "uid_3"
+            }
+          },
+          {
+            "type": "SheetTextarea",
+            "fieldData":{
+              "displayText": "审批意见",
+              "fieldId": "spyj",
+              "value": "",
+              "uid": "uid_4"
+            }
           }
-        },
-        {
-          type: 'sheetTextbox',
-          data: {
-            displayText: '名称3',
-            controlId: 'c3',
-            fieldId: 'name2',
-            value: ''
+        ],
+        [
+          {
+            "type": "SheetLabel",
+            "fieldData":{
+              "displayText": "时间段",
+              "fieldId": "timespan",
+              "value": "",
+              "uid": "uid_5"
+            }
+          },
+          {
+            "type": "SheetTimeSpan",
+            "fieldData":{
+              "displayText": "时间段",
+              "fieldId": "timespan",
+              "value": "",
+              "uid": "uid_6"
+            }
+          },
+          {
+            "type": "SheetLabel",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": "",
+              "uid": "uid_7"
+            }
+          },
+          {
+            "type": "SheetTextBox",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": "",
+              "uid": "uid_8"
+            }
           }
-        },
-        {
-          type: 'sheetTextbox',
-          data: {
-            displayText: '名称4',
-            controlId: 'c4',
-            fieldId: 'name4',
-            value: ''
-          }
-        }
+        ]
       ]
     },
     {
-      blockName: '更多信息',
-      isexpanded: true,
-      controls: [
-        {
-          type: 'sheetTextbox',
-          data: {
-            displayText: '名称 1dsaaa dsaaaa aaaaaa aaadsssssss',
-            controlId: 'c1',
-            fieldId: 'name1',
-            value: ''
+      "blockName": "更多信息",
+      "isExpanded": true,
+      "controls": [
+        [
+          {
+            "type": "SheetLabel",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": "",
+              "uid": "uid_9"
+            }
+          },
+          {
+            "type": "SheetTextBox",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": "",
+              "uid": "uid_10"
+            }
+          },
+          {
+            "type": "SheetLabel",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": "",
+              "uid": "uid_11"
+            }
+          },
+          {
+            "type": "SheetTextBox",
+            "fieldData":{
+              "displayText": "姓名",
+              "fieldId": "name",
+              "value": "",
+              "uid": "uid_12"
+            }
           }
-          
-        },
-        {
-          type: 'sheetTextbox',
-          data: {
-            displayText: '名称2rewwwwwwwwwwww',
-            controlId: 'c2',
-            fieldId: 'name2',
-            value: ''
+        ],
+        [
+          {
+            "type": "SheetRichTextBox",
+            "fieldData":{
+              "displayText": "编辑器",
+              "fieldId": "editor",
+              "value": "",
+              "uid": "uid_13"
+            }
           }
-        },
-        {
-          type: 'sheetTextbox',
-          data: {
-            displayText: '名称3',
-            controlId: 'c3',
-            fieldId: 'name2',
-            value: ''
-          }
-        },
-        {
-          type: 'sheetTextbox',
-          data: {
-            displayText: '名称4',
-            controlId: 'c4',
-            fieldId: 'name4',
-            value: ''
-          }
-        }
-      ]
-    },
-    
-    {
-      blockName: 'more信息',
-      isexpanded: true,
-      controls: [
-        {
-          type: 'sheetTextbox',
-          data: {
-            displayText: '名称 1dsaaa dsaaaa aaaaaa aaadsssssss',
-            controlId: 'c1',
-            fieldId: 'name1',
-            value: ''
-          }
-          
-        },
-        {
-          type: 'sheetTextbox',
-          data: {
-            displayText: '名称2rewwwwwwwwwwww',
-            controlId: 'c2',
-            fieldId: 'name2',
-            value: ''
-          }
-        },
-        {
-          type: 'sheetTextbox',
-          data: {
-            displayText: '名称3',
-            controlId: 'c3',
-            fieldId: 'name2',
-            value: ''
-          }
-        },
-        {
-          type: 'sheetTextbox',
-          data: {
-            displayText: '名称4',
-            controlId: 'c4',
-            fieldId: 'name4',
-            value: ''
-          }
-        }
+        ]
       ]
     }
-  ],
-  hasActionBtn: true,
-  editMode: true
+  ]
 }
+
+var sheetFields = {
+  "id": "57",
+  "code": "CUST_LeaveProcess",
+  "text": "请假流程",
+
+  "children": [{
+    "id": "150",
+    "code": "ApplyName",
+    
+    "text": "申请人",
+    "dataType": null,
+
+    "children": null
+  }, {
+    "id": "151",
+    "code": "ApplyDepartmentID",
+    "parentId": "2",
+    "text": "申请部门",
+    "dataType": null,
+
+    "children": null
+  }, {
+    "id": "152",
+    "code": "ApplyDate",
+    "parentId": "2",
+    "text": "申请日期",
+    "dataType": null,
+
+    "children": null
+  }, {
+    "id": "153",
+    "code": "Job",
+    "parentId": "2",
+    "text": "职务",
+    "dataType": null,
+
+    "children": null
+  }, {
+    "id": "154",
+    "code": "EntryDate",
+    "parentId": "2",
+    "text": "入职日期",
+    "dataType": null,
+
+    "children": null
+  }, {
+    "id": "155",
+    "code": "Account",
+    "parentId": "2",
+    "text": "事由",
+    "dataType": null,
+
+    "children": null
+  }, {
+    "id": "156",
+    "code": "JobAgent",
+    "parentId": "2",
+    "text": "职务代理人",
+    "dataType": null,
+
+    "children": null
+  }, {
+    "id": "161",
+    "code": "Total",
+    "parentId": "2",
+    "text": "总计",
+    "dataType": null,
+
+    "children": null
+  }, {
+    "id": "242",
+    "code": "ShenPiYiJian",
+    "parentId": "2",
+    "text": "审批意见",
+    "dataType": null,
+
+    "children": null
+  }]
+}
+

@@ -1,15 +1,16 @@
 {
-  "sheetId": "sheet1",
+  "sheetId": "Sheet1",
   "sheetDisplayName": "测试表单",
   "hasActionBtn": true,
   "gridLayout": [
     [
       [2,4,2,4],
+      [2,10],
       [2,4,2,4]
     ],
     [
       [2,4,2,4],
-      [3,3,3,3]
+      [12]
     ]
   ],
   "blocks": [
@@ -19,7 +20,7 @@
       "controls": [
         [
           {
-            "type": "sheetLabel",
+            "type": "SheetLabel",
             "fieldData":{
               "displayText": "姓名",
               "fieldId": "name",
@@ -28,7 +29,7 @@
             }
           },
           {
-            "type": "sheetTextbox",
+            "type": "SheetTextBox",
             "fieldData":{
               "displayText": "姓名",
               "fieldId": "name",
@@ -37,19 +38,39 @@
             }
           },
           {
-            "type": "sheetLabel",
+            "type": "SheetLabel",
             "fieldData":{
-              "displayText": "姓名",
-              "fieldId": "name",
+              "displayText": "日期",
+              "fieldId": "date",
+              "value": "",
+              "uid": "uid_11"
+            }
+          },
+          {
+            "type": "SheetTime",
+            "fieldData":{
+              "displayText": "日期",
+              "fieldId": "date",
+              "value": "",
+              "uid": "uid_21"
+            }
+          }
+        ],
+        [
+          {
+            "type": "SheetLabel",
+            "fieldData":{
+              "displayText": "审批意见",
+              "fieldId": "spyj",
               "value": "",
               "uid": "uid_3"
             }
           },
           {
-            "type": "sheetTextbox",
+            "type": "SheetTextarea",
             "fieldData":{
-              "displayText": "姓名",
-              "fieldId": "name",
+              "displayText": "审批意见",
+              "fieldId": "spyj",
               "value": "",
               "uid": "uid_4"
             }
@@ -57,25 +78,25 @@
         ],
         [
           {
-            "type": "sheetLabel",
+            "type": "SheetLabel",
             "fieldData":{
-              "displayText": "姓名",
-              "fieldId": "name",
+              "displayText": "时间段",
+              "fieldId": "timespan",
               "value": "",
               "uid": "uid_5"
             }
           },
           {
-            "type": "sheetTextbox",
+            "type": "SheetTimeSpan",
             "fieldData":{
-              "displayText": "姓名",
-              "fieldId": "name",
+              "displayText": "时间段",
+              "fieldId": "timespan",
               "value": "",
               "uid": "uid_6"
             }
           },
           {
-            "type": "sheetLabel",
+            "type": "SheetLabel",
             "fieldData":{
               "displayText": "姓名",
               "fieldId": "name",
@@ -84,7 +105,7 @@
             }
           },
           {
-            "type": "sheetTextbox",
+            "type": "SheetTextBox",
             "fieldData":{
               "displayText": "姓名",
               "fieldId": "name",
@@ -101,7 +122,7 @@
       "controls": [
         [
           {
-            "type": "sheetLabel",
+            "type": "SheetLabel",
             "fieldData":{
               "displayText": "姓名",
               "fieldId": "name",
@@ -110,7 +131,7 @@
             }
           },
           {
-            "type": "sheetTextbox",
+            "type": "SheetTextBox",
             "fieldData":{
               "displayText": "姓名",
               "fieldId": "name",
@@ -119,7 +140,7 @@
             }
           },
           {
-            "type": "sheetLabel",
+            "type": "SheetLabel",
             "fieldData":{
               "displayText": "姓名",
               "fieldId": "name",
@@ -128,7 +149,7 @@
             }
           },
           {
-            "type": "sheetTextbox",
+            "type": "SheetTextBox",
             "fieldData":{
               "displayText": "姓名",
               "fieldId": "name",
@@ -139,39 +160,12 @@
         ],
         [
           {
-            "type": "sheetLabel",
+            "type": "SheetRichTextBox",
             "fieldData":{
-              "displayText": "姓名",
-              "fieldId": "name",
+              "displayText": "编辑器",
+              "fieldId": "editor",
               "value": "",
               "uid": "uid_13"
-            }
-          },
-          {
-            "type": "sheetTextbox",
-            "fieldData":{
-              "displayText": "姓名",
-              "fieldId": "name",
-              "value": "",
-              "uid": "uid_14"
-            }
-          },
-          {
-            "type": "sheetLabel",
-            "fieldData":{
-              "displayText": "姓名",
-              "fieldId": "name",
-              "value": "",
-              "uid": "uid_15"
-            }
-          },
-          {
-            "type": "sheetTextbox",
-            "fieldData":{
-              "displayText": "姓名",
-              "fieldId": "name",
-              "value": "",
-              "uid": "uid_16"
             }
           }
         ]

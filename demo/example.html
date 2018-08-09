@@ -3,12 +3,63 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    
     <title>lsheet</title>
+    <style>
+      html, body {
+        padding: 0;
+        margin: 0;
+      }
+      #app {
+        width: 100%;
+        height: 100vh;
+      }
+    </style>
   </head>
   <body>
+    <div id="app">
+        <lsheet :sheetdata="sheetData" :sheetfields="sheetFields" :iseditmode="true"></lsheet>
+    </div>
+
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="./data.js"></script>
+    
+    <!-- <script src="../dist/Isheet.js"></script> -->
     <script src="../dist/Lsheet.js"></script>
     <script>
-      
+      // window.onload = function(){
+      //   var options = {
+      //     sheetData: sheetData,
+      //     sheetFields: sheetFields,
+      //     isEditMode: true
+      //   }
+      //   console.log('window onload init')
+      //   Isheet.init('#app', options)
+      // }
+
+      window.onload = function(){
+        console.log('2')
+        new Vue({
+          el: "#app",
+          data: {
+            sheetData: null,
+            sheetFields: null,
+            isEditMode: false
+          },
+          created() {
+            this.dataInit()
+            console.log('APP INIT')
+          },
+          methods: {
+            dataInit: function () {
+              this.sheetData = sheetData;
+              this.sheetFields = sheetFields;
+              this.isEditMode = true;
+            }
+          }
+        })
+      }
     </script>
   </body>
 </html>

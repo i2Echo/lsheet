@@ -1,12 +1,12 @@
 <template>
-    <div class="ls-textbox" :id="fieldData.uid" data-type="sheetfield">
-      <input type="text" class="ls-textbox-input" v-model="fieldData.value">
+    <div class="ls-textBox" :id="fieldData.uid" data-type="sheetfield">
+      <input type="text" class="ls-textBox-input" v-model="fieldData.value">
     </div>
 </template>
 
 <script>
 export default {
-  name: 'sheetTextbox',
+  name: 'SheettextBox',
   props: {
     fieldData: {
       type: Object,
@@ -22,7 +22,7 @@ export default {
 
 <style lang="scss">
 
-  .ls-textbox {
+  .ls-textBox {
     position: relative;
     font-size: 14px;
     padding: 3px 15px;

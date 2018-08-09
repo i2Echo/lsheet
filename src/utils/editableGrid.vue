@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper edit-mode">
     <!-- left-bar -->
     <div :class="['ls-left', 'resizePanel', isFieldListExpanded ? 'expanded' : 'collapsed']">
       <div v-if="isFieldListExpanded" class="expanded-panel">
@@ -10,7 +10,9 @@
           </div>
         </div>
         <div class="expanded-panel-body">
-          <tree :text="sheetFields.text" :children="sheetFields.children" :depth="0"></tree>
+          <div class="tree-container">
+            <tree :text="sheetFields.text" :children="sheetFields.children" :depth="0" class="root"></tree>
+          </div>
         </div>
       </div>
       <div v-else class="collapsed-bar left-bar">
@@ -20,7 +22,7 @@
     <div v-if="isFieldListExpanded" id="resizableFieldList" class="resizable-line"></div>
 
 
-    <div class="ls-main">
+    <div class="ls-main" @click.native="getFocusData">
       <div class="ls-header">
         <div class="ls-header__title"> {{sheetDisplayName}} </div>
         <div class="ls-header__action">
@@ -29,17 +31,17 @@
           </button>
         </div>
       </div>
-      <div class="ls-content ls-container-fluid edit-mode" tabindex="0" @click.native="getFocusData">
+      <div class="ls-content ls-container-fluid" tabindex="0" @click.native="getFocusData">
         <div class="ls-content-title"> {{sheetDisplayName}} </div>
 
-        <div class="ls-content-body js-add-block" @contextmenu.stop="showMenu">
+        <div class="ls-content-body js-add-block" @contextmenu="showMenu">
           <context-menu :contextMenuData="contextMenuDataForAddBlock"
             @addBlock="addBlock">
           </context-menu>
           <!-- <div style="width:100px;height:100px;background:red;"></div> -->
 
           <div v-if="gridLayout.length">
-            <div class="ls-block" v-for="(block, i) in gridLayout" :key="i" :tabindex="i" @contextmenu.stop="showMenu(i, 'block')">
+            <div class="ls-block" v-for="(block, i) in gridLayout" :key="i" :tabindex="i" @contextmenu="showMenu(i, 'block')">
               <context-menu :contextMenuData="contextMenuDataForDelBlock"
                 :transferIndex="blockIndex"
                 @deleteThisBlock="deleteThisBlock(i)">
@@ -48,7 +50,7 @@
                 <i class="fa fa-angle-right"></i>
                 <input type="text" v-model="blockDatas[i].blockName">
               </div>
-              <div v-for="(row, j) in block" :key="j" @contextmenu.stop="showMenu(getIndex(i, j), 'row')" :tabindex="j">
+              <div v-for="(row, j) in block" :key="j" @contextmenu="showMenu(getIndex(i, j), 'row')" :tabindex="j">
                 <grid-row :cols="row" :colsData="blockDatas ? blockDatas[i].controls[j]:null"></grid-row>
                 <context-menu :contextMenuData="contextMenuData"
                   :transferIndex="transferIndex"
@@ -168,7 +170,8 @@ export default {
       // default: () => ([
       //   [ // block
       //     [2,4,2,4], // row
-      //     [3,3,3,3]
+      //     [3,3,3,3],
+      //     [12]
       //   ],
       //   [
       //     [2,4,2,4],
@@ -292,21 +295,77 @@ export default {
         col: obj.getAttribute('tabindex')
       }
     },
+    getFieldObjByField: function (field){
+      let obj = null
+      function children(childrenList){
+        for(let i=0; i<childrenList.length; i++){
+          if(childrenList[i].code === field){
+            obj = childrenList[i]
+            return 
+          }else if(typeof childrenList[i].children !== "undefined" && childrenList.children){
+            children(childrenList[i].children)
+          }
+        }
+      }
+
+      if(this.sheetFields.code === field){
+        return this.sheetFields
+      }else {
+        children(this.sheetFields.children)
+      }
+      return obj ? obj : false
+    },
+    fieldToControl: function (fieldObj){
+      if(!fieldObj) return false
+
+      let type = 'sheetLabel'
+      switch (fieldObj.dataType) {
+        case "ShortString":
+          type = "sheetLabel"
+          break;
+      
+        default:
+          break;
+      }
+      return {
+        "type": type,
+        "fieldData":{
+          "displayText": fieldObj.text,
+          "fieldId": fieldObj.code,
+          "value": "",
+          "uid": genUid(fieldObj.code)
+        }
+      }
+    },
     updateControlPosition: function (from, to){ //{block: z, row: y, col: x}
-      let temp = JSON.parse(JSON.stringify(this.blockDatas[from.block].controls[from.row][from.col]))
- 
-      this.$set(this.blockDatas[from.block].controls[from.row], from.col, {})
+      let temp = {}
+      if(typeof from === 'string'){
+        let fieldObj = this.getFieldObjByField(from)
+        if(fieldObj) {
+          temp = this.fieldToControl(fieldObj)
+        }else{
+          temp = {}
+        }
+      }else {
+        temp = JSON.parse(JSON.stringify(this.blockDatas[from.block].controls[from.row][from.col]))
+        this.$set(this.blockDatas[from.block].controls[from.row], from.col, {})
+      }
 
       this.$set(this.blockDatas[to.block].controls[to.row],[to.col], temp)
     },
     dragInit: function () {
-      const selector = '[data-type=sheetfield]'
-      
+
       let that = this
-      setTimeout(function(){
+      this.$nextTick().then(function(){
         const dom = document.querySelector('.edit-mode')
-        let elems = dom.querySelectorAll(selector)
+        if(dom === null) return
         let checkArea = dom.querySelectorAll('.grid-border > div')
+
+        // drag controls start
+        const selector = '[data-type=sheetfield]'
+        let elems = dom.querySelectorAll(selector)
+        
+
         if(elems.length < 1) return
 
         for(let i=0; i<elems.length; i++){
@@ -314,6 +373,8 @@ export default {
           // console.log("reg: "+ i)
           moveByDrag(
             obj,
+            '1000',
+            false,
             function(){  //onMoving: 
               for (let i = 0; i < checkArea.length; i++) {
                   if (isBelong(obj, checkArea[i])) {
@@ -332,6 +393,7 @@ export default {
                   if (isBelong(obj, checkArea[i])) {
 
                     if(checkArea[i].childElementCount === 0){
+                      
                       let from = that.getControlPosition(obj)
                       let to = that.getGridPosition(checkArea[i])
 
@@ -346,8 +408,57 @@ export default {
             },
             )
         }
-      }, 0)
-      
+        // drag controls end
+
+
+        // drag fields start
+        const fieldsSel = '.leaf-node>.fieldLabel'
+        let fieldsEle = dom.querySelectorAll(fieldsSel)
+        // debugger
+
+        if(fieldsEle.length < 1) return
+
+        for(let i=0; i<fieldsEle.length; i++){
+          let obj = fieldsEle[i]
+          // console.log("reg: "+ i)
+          moveByDrag(
+            obj,
+            '99999',
+            true,
+            function(){  //onMoving: 
+              for (let i = 0; i < checkArea.length; i++) {
+                  if (isBelong(obj, checkArea[i])) {
+                    if(checkArea[i].childElementCount === 0){
+                      checkArea[i].style.border= "2px dashed #1867c0"
+                    }else{
+                      checkArea[i].style.border= "2px dashed #F44336"
+                    }
+                  } else {
+                    checkArea[i].style.border= "1px dashed #ccc"
+                  }
+              }
+            },
+            function(){ //onMoved: 
+              for (let i = 0; i < checkArea.length; i++) {
+                  if (isBelong(obj, checkArea[i])) {
+
+                    if(checkArea[i].childElementCount === 0){
+                      let from = obj.getAttribute('field')
+                      let to = that.getGridPosition(checkArea[i])
+
+                      checkArea[i].removeAttribute('style')
+                      that.updateControlPosition(from, to)
+
+                      break
+                    }
+                    checkArea[i].removeAttribute('style')
+                  }
+              }
+            },
+            )
+        }
+        // drag fields end
+      })
     },
 
     getFocusData: function () {
@@ -380,6 +491,7 @@ export default {
 <style lang="scss">
 .wrapper {
   height: 100%;
+  position: relative;
   display: flex;
   .ls-main {
     height: 100%;
@@ -408,6 +520,12 @@ export default {
           border: none;
           cursor: pointer;
         }
+      }
+    }
+    .ls-content {
+      // padding-bottom: 80px;
+      .js-add-block {
+        padding-bottom: 80px;
       }
     }
   }
@@ -470,6 +588,19 @@ export default {
       }
       &-body {
         height: calc(100% - 32px);
+
+        .tree-container {
+          padding: 15px;
+
+          .root>.label{
+            &::before{
+              border-left: none;
+            }
+            &::after{
+              border-top: none;
+            }
+          }
+        }
       }
     }
 

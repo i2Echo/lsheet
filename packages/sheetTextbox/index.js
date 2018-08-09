@@ -1,7 +1,7 @@
-import sheetTextbox from './textbox.vue'
+import SheetTextBox from './TextBox.vue'
 
-sheetTextbox.install = function (Vue){
-    Vue.component(sheetTextbox.name, sheetTextbox)
+SheetTextBox.install = function (Vue){
+    Vue.component(SheetTextBox.name, SheetTextBox)
 }
 
-export default sheetTextbox
+export default SheetTextBox

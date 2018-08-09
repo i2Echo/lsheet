@@ -9,7 +9,7 @@
 
 <script>
 export default {
-  name: 'sheetLabel',
+  name: 'SheetLabel',
   props: {
     fieldData: {
       type: Object,

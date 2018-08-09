@@ -22,7 +22,11 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/dist/',
-    filename: 'bundle.js'
+    filename: 'Lsheet.js',
+    library: "Lsheet",
+    umdNamedDefine: true,
+    libraryTarget: 'umd',
+    
   },
   externals: ext,
   module: {

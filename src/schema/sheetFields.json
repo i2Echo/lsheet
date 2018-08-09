@@ -8,7 +8,7 @@
     "code": "ApplyName",
     
     "text": "申请人",
-    "dataType": null,
+    "dataType": "ShortString",
 
     "children": null
   }, {
@@ -16,7 +16,7 @@
     "code": "ApplyDepartmentID",
     "parentId": "2",
     "text": "申请部门",
-    "dataType": null,
+    "dataType": "ShortString",
 
     "children": null
   }, {
@@ -24,7 +24,7 @@
     "code": "ApplyDate",
     "parentId": "2",
     "text": "申请日期",
-    "dataType": null,
+    "dataType": "ShortString",
 
     "children": null
   }, {
@@ -32,7 +32,7 @@
     "code": "Job",
     "parentId": "2",
     "text": "职务",
-    "dataType": null,
+    "dataType": "ShortString",
 
     "children": null
   }, {
@@ -40,7 +40,7 @@
     "code": "EntryDate",
     "parentId": "2",
     "text": "入职日期",
-    "dataType": null,
+    "dataType": "ShortString",
 
     "children": null
   }, {
@@ -48,7 +48,7 @@
     "code": "Account",
     "parentId": "2",
     "text": "事由",
-    "dataType": null,
+    "dataType": "ShortString",
 
     "children": null
   }, {
@@ -56,7 +56,7 @@
     "code": "JobAgent",
     "parentId": "2",
     "text": "职务代理人",
-    "dataType": null,
+    "dataType": "ShortString",
 
     "children": null
   }, {
@@ -64,7 +64,7 @@
     "code": "Total",
     "parentId": "2",
     "text": "总计",
-    "dataType": null,
+    "dataType": "ShortString",
 
     "children": null
   }, {
@@ -72,7 +72,7 @@
     "code": "ShenPiYiJian",
     "parentId": "2",
     "text": "审批意见",
-    "dataType": null,
+    "dataType": "ShortString",
 
     "children": null
   }]

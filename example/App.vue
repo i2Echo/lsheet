@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Lsheet :sheetData="sheetData" :sheetFields="sheetFields" :isEditMode="true"></Lsheet>
+    <Lsheet :sheetdata="sheetData" :sheetfields="sheetFields" :iseditmode="true"></Lsheet>
   </div>
 </template>
 

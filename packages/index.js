@@ -1,9 +1,17 @@
-import sheetLabel from './sheetLabel/index.js'
-import sheetTextbox from './sheetTextbox/index.js'
+import SheetLabel from './SheetLabel/index.js'
+import SheetTextBox from './SheetTextBox/index.js'
+import SheetTextarea from './SheetTextarea/index.js'
+import SheetRichTextBox from './SheetRichTextBox/index.js'
+import SheetTime from './SheetTime/index.js'
+import SheetTimeSpan from './SheetTimeSpan/index.js'
 
 const components = [
-  sheetTextbox,
-  sheetLabel
+  SheetTextBox,
+  SheetLabel,
+  SheetRichTextBox,
+  SheetTextarea,
+  SheetTime,
+  SheetTimeSpan
 ]
 
 const install = function(Vue) {
@@ -17,6 +25,10 @@ if (typeof window !== 'undefined' && window.Vue) {
 
 export default {
   install,
-  sheetLabel,
-  sheetTextbox
+  SheetLabel,
+  SheetTextBox,
+  SheetTextarea,
+  SheetTime,
+  SheetTimeSpan,
+  SheetRichTextBox,
 }

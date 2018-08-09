@@ -1,7 +1,7 @@
-import sheetLabel from './label.vue'
+import SheetLabel from './Label.vue'
 
-sheetLabel.install = function (Vue){
-    Vue.component(sheetLabel.name, sheetLabel)
+SheetLabel.install = function (Vue){
+    Vue.component(SheetLabel.name, SheetLabel)
 }
 
-export default sheetLabel
+export default SheetLabel
