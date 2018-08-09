@@ -28,7 +28,7 @@ export default {
     isExpanded: true
   }),
   computed: {
-    indent() {
+    indent () {
       return { transform: `translate(${this.depth * 20}px)` }
     }
   }
@@ -53,7 +53,7 @@ export default {
       width: 1px;
       border-width: 1px;
       border-left: 1px dashed #999;
-      
+
     }
     &::after {
       content: "";

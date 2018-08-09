@@ -17,13 +17,13 @@ export default {
     cols: {
       type: Array,
       default: () => ([
-        2,4,2,4
+        2, 4, 2, 4
       ])
     },
     colsData: {
       type: Array
     }
-  },
+  }
 }
 </script>
 <style lang="scss" scoped>

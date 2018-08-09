@@ -1,26 +1,26 @@
 const SheetControls = {
   SheetAttachment: {
-      DesignProperties: [{
-          Name: "DataField",
-          Description: "获取或设置控件绑定的数据项名称",
-          DefaultValue: "",
-          ValueRange: null
-      }, {
-          Name: "AllowBatchDownload",
-          Description: "获取或设置是否允许批量下载",
-          DefaultValue: true,
-          ValueRange: [true, false]
-      }, {
-          Name: "FileExtensions",
-          Description: "获取或设置附件上传的文件名格式,示例:.jpg,.gif",
-          DefaultValue: "",
-          ValueRange: null
-      }, {
-          Name: "MaxUploadSize",
-          Description: "获取或设置限制文件上传的大小(MB)，默认为 10MB",
-          DefaultValue: 10,
-          ValueRange: null
-      }]
+    DesignProperties: [{
+      Name: "DataField",
+      Description: "获取或设置控件绑定的数据项名称",
+      DefaultValue: "",
+      ValueRange: null
+    }, {
+      Name: "AllowBatchDownload",
+      Description: "获取或设置是否允许批量下载",
+      DefaultValue: true,
+      ValueRange: [true, false]
+    }, {
+      Name: "FileExtensions",
+      Description: "获取或设置附件上传的文件名格式,示例:.jpg,.gif",
+      DefaultValue: "",
+      ValueRange: null
+    }, {
+        Name: "MaxUploadSize",
+        Description: "获取或设置限制文件上传的大小(MB)，默认为 10MB",
+        DefaultValue: 10,
+        ValueRange: null
+    }]
   },
   SheetCheckbox: {
       DesignProperties: [{

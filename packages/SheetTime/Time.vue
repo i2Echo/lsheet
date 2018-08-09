@@ -35,7 +35,6 @@ export default {
     height: 42px;
 
     .el-input {
-      
       width: 100%;
       max-width: 220px;
 
@@ -48,4 +47,3 @@ export default {
     }
   }
 </style>
-

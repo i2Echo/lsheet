@@ -2,7 +2,7 @@
   <div class="l-sheet" v-if="sheetdata">
     <!-- edit mode -->
     <editable-grid v-if="editMode" :sheetFields="sheetfields" :sheetDisplayName="sheetdata.sheetDisplayName" :gridLayout="sheetdata.gridLayout" :blockDatas="sheetdata.blocks"></editable-grid>
-    
+
     <!-- render mode -->
     <div v-else class="ls-content">
       <div class="ls-content-title"> {{sheetdata.sheetDisplayName}} </div>
@@ -53,12 +53,12 @@ export default {
     }
   },
   data: () => ({
-     editMode: false
+    editMode: false
   }),
   created () {
     console.log('lsheet init')
   },
-  mounted(){
+  mounted () {
     this.editMode = this.iseditmode
   },
   methods: {
@@ -69,7 +69,7 @@ export default {
     expanded: function (block) {
       let isExpanded = block.isExpanded
       block.isExpanded = !isExpanded
-    },
+    }
 
   }
 }

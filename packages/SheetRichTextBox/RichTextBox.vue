@@ -25,9 +25,9 @@ export default {
   },
   data () {
     return {
-      content: this.fieldData.value || "请输内容..."
+      content: this.fieldData.value || '请输内容...'
     }
-  } 
+  }
 }
 </script>
 

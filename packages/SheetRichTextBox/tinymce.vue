@@ -8,11 +8,11 @@
 // Import Tinymce
 import tinymce from 'tinymce/tinymce'
 tinymce.baseURL = 'static/tinymce'
-// A theme is also required
-import 'tinymce/themes/modern/theme'
 // Any plugins you want to use has to be imported
 import plugins from './plugins'
 import toolbar from './toolbar'
+// A theme is also required
+import 'tinymce/themes/modern/theme'
 
 export default {
   name: 'tinymce',
@@ -28,7 +28,7 @@ export default {
     toolbar: {
       type: Array,
       required: false,
-      default() {
+      default () {
         return []
       }
     },
@@ -42,7 +42,7 @@ export default {
       default: 200
     }
   },
-  data() {
+  data () {
     return {
       hasChange: false,
       hasInit: false,
@@ -50,23 +50,23 @@ export default {
     }
   },
   watch: {
-    value(val) {
+    value (val) {
       if (!this.hasChange && this.hasInit) {
         this.$nextTick(() => tinymce.get(this.tinymceId).setContent(val))
       }
     }
   },
-  mounted() {
+  mounted () {
     this.initTinymce()
   },
-  activated() {
+  activated () {
     this.initTinymce()
   },
-  deactivated() {
+  deactivated () {
     this.destroyTinymce()
   },
   methods: {
-    initTinymce() {
+    initTinymce () {
       const _this = this
       tinymce.init({
         selector: `#${this.tinymceId}`,
@@ -99,25 +99,25 @@ export default {
         }
       })
     },
-    destroyTinymce() {
+    destroyTinymce () {
       if (tinymce.get(this.tinymceId)) {
         tinymce.get(this.tinymceId).destroy()
       }
     },
-    setContent(value) {
+    setContent (value) {
       tinymce.get(this.tinymceId).setContent(value)
     },
-    getContent() {
+    getContent () {
       tinymce.get(this.tinymceId).getContent()
     },
-    imageSuccessCBK(arr) {
+    imageSuccessCBK (arr) {
       const _this = this
       arr.forEach(v => {
         tinymce.get(_this.tinymceId).insertContent(`<img class="wscnph" src="${v.url}" >`)
       })
     }
   },
-  destroyed() {
+  destroyed () {
     this.destroyTinymce()
   }
 }

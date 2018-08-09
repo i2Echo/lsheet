@@ -9,60 +9,60 @@
   </span>
 </template>
 <script>
-  export default {
-    props: {
-      contextMenuData: {
-        type: Object,
-        requred: false,
-        default () {
-          return {
-            menuName: null,
-            axios: {
-              x: null,
-              y: null
+export default {
+  props: {
+    contextMenuData: {
+      type: Object,
+      requred: false,
+      default () {
+        return {
+          menuName: null,
+          axios: {
+            x: null,
+            y: null
+          },
+          menulists: [
+            {
+              fnHandler: 'adddata',
+              icoName: 'fa fa-plus',
+              btnName: 'New'
             },
-            menulists: [
-              {
-                fnHandler: 'adddata',
-                icoName: 'fa fa-plus',
-                btnName: 'New'
-              },
-              {
-                fnHandler: 'savedata',
-                icoName: 'fa fa-home',
-                btnName: 'Save'
-              }
-            ]
-          }
+            {
+              fnHandler: 'savedata',
+              icoName: 'fa fa-home',
+              btnName: 'Save'
+            }
+          ]
         }
-      },
-      transferIndex: {
-        type: Number,
-        default: 0
       }
     },
-    watch: {
-      'contextMenuData.axios' (val) {
-        var x = val.x
-        var y = val.y
-        var _this = this
-        var index = _this.transferIndex
-        var menuName = 'vue-contextmenuName-' + _this.contextMenuData.menuName
-        var menu = document.getElementsByClassName(menuName)[index]
-        menu.style.display = 'block'
-        menu.style.left = x + 'px'
-        menu.style.top = y + 'px'
-        document.addEventListener('mouseup', function () {
-          menu.style.display = 'none'
-        }, false)
-      }
-    },
-    methods: {
-      fnHandler (item) {
-        this.$emit(item.fnHandler)
-      }
+    transferIndex: {
+      type: Number,
+      default: 0
+    }
+  },
+  watch: {
+    'contextMenuData.axios' (val) {
+      var x = val.x
+      var y = val.y
+      var _this = this
+      var index = _this.transferIndex
+      var menuName = 'vue-contextmenuName-' + _this.contextMenuData.menuName
+      var menu = document.getElementsByClassName(menuName)[index]
+      menu.style.display = 'block'
+      menu.style.left = x + 'px'
+      menu.style.top = y + 'px'
+      document.addEventListener('mouseup', function () {
+        menu.style.display = 'none'
+      }, false)
+    }
+  },
+  methods: {
+    fnHandler (item) {
+      this.$emit(item.fnHandler)
     }
   }
+}
 </script>
 <style lang="scss" scoped>
   .vue-contextmenu-listWrapper {

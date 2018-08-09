@@ -2,7 +2,7 @@
 <template>
     <div :title="fieldData.displayText" tabindex="0" :id="fieldData.uid" data-type="sheetfield" class="ls-label">
       <!-- <label for=""> -->
-        {{ fieldData.displayText }} 
+        {{ fieldData.displayText }}
       <!-- </label>  -->
     </div>
 </template>
@@ -17,11 +17,10 @@ export default {
         displayText: '姓名',
         fieldId: 'name',
         value: '',
-        "uid": "uid_0"
+        'uid': 'uid_0'
       })
     }
-  },
-  
+  }
 }
 </script>
 
@@ -32,7 +31,7 @@ export default {
     background-color: #f5f5f5;
     padding: 0 15px;
     min-width: 50px;
-    word-wrap: break-word; 
+    word-wrap: break-word;
     word-break:break-all;
     // @media (min-width: 576px){
     //   max-width: 200px;
@@ -51,4 +50,3 @@ export default {
     // }
   }
 </style>
-

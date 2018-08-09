@@ -7,9 +7,7 @@ export default {
   render: function (createElement) {
     let that = this
     // console.log(that.obj)
-    return createElement(that.obj.type, 
-          {props: {fieldData: that.obj.fieldData}}
-        )
+    return createElement(that.obj.type, {props: {fieldData: that.obj.fieldData}})
   },
   props: {
     obj: {

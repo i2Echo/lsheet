@@ -21,7 +21,6 @@
     </div>
     <div v-if="isFieldListExpanded" id="resizableFieldList" class="resizable-line"></div>
 
-
     <div class="ls-main" @click.native="getFocusData">
       <div class="ls-header">
         <div class="ls-header__title"> {{sheetDisplayName}} </div>
@@ -66,7 +65,6 @@
 
       </div>
     </div>
-    
     <!-- right-bar -->
     <div v-if="isPropsPanelExpanded" id="resizableProps" class="resizable-line"></div>
     <div :class="['ls-right', 'resizePanel', isPropsPanelExpanded ? 'expanded' : 'collapsed']">
@@ -162,11 +160,11 @@ export default {
     rowDataSplit: [{}, {}, {}, {}],
 
     isPropsPanelExpanded: false,
-    isFieldListExpanded: true,
+    isFieldListExpanded: true
   }),
-  props:{
+  props: {
     gridLayout: {
-      type: Array,
+      type: Array
       // default: () => ([
       //   [ // block
       //     [2,4,2,4], // row
@@ -184,14 +182,14 @@ export default {
       default: () => ([])
     },
     sheetFields: {
-      type:Object
+      type: Object
     },
     sheetDisplayName: ''
   },
-  mounted() {
+  mounted () {
     this.init()
   },
-  updated() {
+  updated () {
     this.dragInit()
     this.initDragResize()
   },
@@ -199,7 +197,7 @@ export default {
 
   },
   computed: {
-    
+
   },
   methods: {
     init: function () {
@@ -208,7 +206,7 @@ export default {
       this.initDragResize()
     },
 
-    setupContextMenuData: function() {
+    setupContextMenuData: function () {
       this.contextMenuDataForAddBlock.menulists.push(this.menuListTpl.addBlock)
       this.contextMenuDataForDelBlock.menulists.push(this.menuListTpl.deleteThisBlock)
       this.contextMenuData.menulists.push(this.menuListTpl.insertUpRow)
@@ -219,56 +217,53 @@ export default {
       event.preventDefault()
       let x = event.clientX
       let y = event.clientY
-      let a = arguments[0]
 
-      if(typeof arguments[0] != "object"){
-        if(ele == 'row'){
+      if (typeof arguments[0] !== 'object') {
+        if (ele === 'row') {
           this.transferIndex = index
           this.contextMenuData.axios = {x, y}
-        }else {
+        } else {
           this.blockIndex = index
           this.contextMenuDataForDelBlock.axios = {x, y}
         }
-        
-      }
-      else{
+      } else {
         this.contextMenuDataForAddBlock.axios = {x, y}
       }
       // console.log(x, y)
     },
     getIndex: function (i, j) {
-      let index = 0;
-      for(let m = 0; m < i; m++){
+      let index = 0
+      for (let m = 0; m < i; m++) {
         index += this.gridLayout[m].length
       }
 
       return index + j
     },
-    addBlock: function() {
+    addBlock: function () {
       console.log('addblock')
-      let block = new Array()
+      let block = []
       let rowDataSplit = JSON.parse(JSON.stringify(this.rowDataSplit))
       block[0] = this.rowSplit
       this.gridLayout.push(block)
-      let blockData = {"blockName": "标题","isExpanded": true, controls:[rowDataSplit]}
+      let blockData = {'blockName': '标题', 'isExpanded': true, controls: [rowDataSplit]}
       this.blockDatas.push(blockData)
     },
-    insertUpRow: function(i, currIndex) {
+    insertUpRow: function (i, currIndex) {
       this.gridLayout[i].splice(currIndex, 0, this.rowSplit)
       let rowDataSplit = JSON.parse(JSON.stringify(this.rowDataSplit))
       this.blockDatas[i].controls.splice(currIndex, 0, rowDataSplit)
       console.log(this.blockDatas)
     },
-    insertDownRow: function(i, currIndex) {
-      this.gridLayout[i].splice(currIndex+1, 0, this.rowSplit)
+    insertDownRow: function (i, currIndex) {
+      this.gridLayout[i].splice(currIndex + 1, 0, this.rowSplit)
       let rowDataSplit = JSON.parse(JSON.stringify(this.rowDataSplit))
-      this.blockDatas[i].controls.splice(currIndex+1, 0, rowDataSplit)
+      this.blockDatas[i].controls.splice(currIndex + 1, 0, rowDataSplit)
     },
-    deleteThisRow: function(i, currIndex) {
+    deleteThisRow: function (i, currIndex) {
       this.gridLayout[i].splice(currIndex, 1)
       this.blockDatas[i].controls.splice(currIndex, 1)
     },
-    deleteThisBlock: function(i) {
+    deleteThisBlock: function (i) {
       console.log('delblk')
       console.log(i)
       this.gridLayout.splice(i, 1)
@@ -295,182 +290,177 @@ export default {
         col: obj.getAttribute('tabindex')
       }
     },
-    getFieldObjByField: function (field){
+
+    getFieldObjByField: function (field) {
       let obj = null
-      function children(childrenList){
-        for(let i=0; i<childrenList.length; i++){
-          if(childrenList[i].code === field){
+      function children (childrenList) {
+        for (let i = 0; i < childrenList.length; i++) {
+          if (childrenList[i].code === field) {
             obj = childrenList[i]
-            return 
-          }else if(typeof childrenList[i].children !== "undefined" && childrenList.children){
+            return
+          } else if (typeof childrenList[i].children !== 'undefined' && childrenList.children) {
             children(childrenList[i].children)
           }
         }
       }
 
-      if(this.sheetFields.code === field){
+      if (this.sheetFields.code === field) {
         return this.sheetFields
-      }else {
+      } else {
         children(this.sheetFields.children)
       }
-      return obj ? obj : false
+      return obj
     },
-    fieldToControl: function (fieldObj){
-      if(!fieldObj) return false
+
+    fieldToControl: function (fieldObj) {
+      if (!fieldObj) return false
 
       let type = 'sheetLabel'
       switch (fieldObj.dataType) {
-        case "ShortString":
-          type = "sheetLabel"
-          break;
-      
+        case 'ShortString':
+          type = 'sheetLabel'
+          break
         default:
-          break;
+          break
       }
       return {
-        "type": type,
-        "fieldData":{
-          "displayText": fieldObj.text,
-          "fieldId": fieldObj.code,
-          "value": "",
-          "uid": genUid(fieldObj.code)
+        'type': type,
+        'fieldData': {
+          'displayText': fieldObj.text,
+          'fieldId': fieldObj.code,
+          'value': '',
+          'uid': genUid(fieldObj.code)
         }
       }
     },
-    updateControlPosition: function (from, to){ //{block: z, row: y, col: x}
+
+    updateControlPosition: function (from, to) { // {block: z, row: y, col: x}
       let temp = {}
-      if(typeof from === 'string'){
+      if (typeof from === 'string') {
         let fieldObj = this.getFieldObjByField(from)
-        if(fieldObj) {
+        if (fieldObj) {
           temp = this.fieldToControl(fieldObj)
-        }else{
+        } else {
           temp = {}
         }
-      }else {
+      } else {
         temp = JSON.parse(JSON.stringify(this.blockDatas[from.block].controls[from.row][from.col]))
         this.$set(this.blockDatas[from.block].controls[from.row], from.col, {})
       }
 
-      this.$set(this.blockDatas[to.block].controls[to.row],[to.col], temp)
+      this.$set(this.blockDatas[to.block].controls[to.row], [to.col], temp)
     },
-    dragInit: function () {
 
+    dragInit: function () {
       let that = this
-      this.$nextTick().then(function(){
+      this.$nextTick().then(function () {
         const dom = document.querySelector('.edit-mode')
-        if(dom === null) return
+        if (dom === null) return
         let checkArea = dom.querySelectorAll('.grid-border > div')
 
         // drag controls start
         const selector = '[data-type=sheetfield]'
         let elems = dom.querySelectorAll(selector)
-        
 
-        if(elems.length < 1) return
+        if (elems.length < 1) return
 
-        for(let i=0; i<elems.length; i++){
+        for (let i = 0; i < elems.length; i++) {
           let obj = elems[i]
           // console.log("reg: "+ i)
           moveByDrag(
             obj,
             '1000',
             false,
-            function(){  //onMoving: 
+            function () { // onMoving:
               for (let i = 0; i < checkArea.length; i++) {
-                  if (isBelong(obj, checkArea[i])) {
-                    if(checkArea[i].childElementCount === 0){
-                      checkArea[i].style.border= "2px dashed #1867c0"
-                    }else{
-                      checkArea[i].style.border= "2px dashed #F44336"
-                    }
+                if (isBelong(obj, checkArea[i])) {
+                  if (checkArea[i].childElementCount === 0) {
+                    checkArea[i].style.border = '2px dashed #1867c0'
                   } else {
-                    checkArea[i].style.border= "1px dashed #ccc"
+                    checkArea[i].style.border = '2px dashed #F44336'
                   }
+                } else {
+                  checkArea[i].style.border = '1px dashed #ccc'
+                }
               }
             },
-            function(){ //onMoved: 
+            function () { // onMoved:
               for (let i = 0; i < checkArea.length; i++) {
-                  if (isBelong(obj, checkArea[i])) {
-
-                    if(checkArea[i].childElementCount === 0){
-                      
-                      let from = that.getControlPosition(obj)
-                      let to = that.getGridPosition(checkArea[i])
-
-                      checkArea[i].removeAttribute('style')
-                      that.updateControlPosition(from, to)
-
-                      break
-                    }
+                if (isBelong(obj, checkArea[i])) {
+                  if (checkArea[i].childElementCount === 0) {
+                    let from = that.getControlPosition(obj)
+                    let to = that.getGridPosition(checkArea[i])
                     checkArea[i].removeAttribute('style')
+                    that.updateControlPosition(from, to)
+
+                    break
                   }
+                  checkArea[i].removeAttribute('style')
+                }
               }
-            },
-            )
+            })
         }
         // drag controls end
-
 
         // drag fields start
         const fieldsSel = '.leaf-node>.fieldLabel'
         let fieldsEle = dom.querySelectorAll(fieldsSel)
         // debugger
 
-        if(fieldsEle.length < 1) return
+        if (fieldsEle.length < 1) return
 
-        for(let i=0; i<fieldsEle.length; i++){
+        for (let i = 0; i < fieldsEle.length; i++) {
           let obj = fieldsEle[i]
           // console.log("reg: "+ i)
           moveByDrag(
             obj,
             '99999',
             true,
-            function(){  //onMoving: 
+            function () { // onMoving:
               for (let i = 0; i < checkArea.length; i++) {
-                  if (isBelong(obj, checkArea[i])) {
-                    if(checkArea[i].childElementCount === 0){
-                      checkArea[i].style.border= "2px dashed #1867c0"
-                    }else{
-                      checkArea[i].style.border= "2px dashed #F44336"
-                    }
+                if (isBelong(obj, checkArea[i])) {
+                  if (checkArea[i].childElementCount === 0) {
+                    checkArea[i].style.border = '2px dashed #1867c0'
                   } else {
-                    checkArea[i].style.border= "1px dashed #ccc"
+                    checkArea[i].style.border = '2px dashed #F44336'
                   }
+                } else {
+                  checkArea[i].style.border = '1px dashed #ccc'
+                }
               }
             },
-            function(){ //onMoved: 
+            function () { // onMoved:
               for (let i = 0; i < checkArea.length; i++) {
-                  if (isBelong(obj, checkArea[i])) {
+                if (isBelong(obj, checkArea[i])) {
+                  if (checkArea[i].childElementCount === 0) {
+                    let from = obj.getAttribute('field')
+                    let to = that.getGridPosition(checkArea[i])
 
-                    if(checkArea[i].childElementCount === 0){
-                      let from = obj.getAttribute('field')
-                      let to = that.getGridPosition(checkArea[i])
-
-                      checkArea[i].removeAttribute('style')
-                      that.updateControlPosition(from, to)
-
-                      break
-                    }
                     checkArea[i].removeAttribute('style')
+                    that.updateControlPosition(from, to)
+
+                    break
                   }
+                  checkArea[i].removeAttribute('style')
+                }
               }
-            },
-            )
+            }
+          )
         }
         // drag fields end
       })
     },
 
     getFocusData: function () {
-      console.log("click")
+      console.log('click')
       let focusedElement = document.activeElement
       console.log(focusedElement)
     },
     initDragResize: function () {
-      if(this.isPropsPanelExpanded){
+      if (this.isPropsPanelExpanded) {
         resizeByDrag('resizableProps')
       }
-      if(this.isFieldListExpanded){
+      if (this.isFieldListExpanded) {
         resizeByDrag('resizableFieldList', 'prev')
       }
     },
@@ -623,7 +613,7 @@ export default {
       background-color: #f5f5f5;
       border: 1px solid #b3d4fc;
       // position: absolute;
-      
+
       // &.left-bar {
       //   left: 0;
       //   top: 0;
@@ -634,7 +624,7 @@ export default {
       // }
     }
   }
-  
+
 }
 
 .resizable-line {

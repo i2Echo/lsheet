@@ -13,7 +13,6 @@
             <div class="col-sm-8 item-value"> {{ value }} </div>
           </div>
         </div>
-        
       </div>
     </div>
     <div class="panel-bottom">
@@ -22,11 +21,11 @@
 </template>
 <script>
 
-import SheetControls from '../schema/propertyDict.js'
+// import SheetControls from '../schema/propertyDict.js'
 
 export default {
   name: 'control-panel',
-  
+
   props: {
     properties: {
       type: Object,
@@ -36,7 +35,7 @@ export default {
           {
             groupName: '基本属性',
             isGroupExpanded: true,
-            props:{
+            props: {
               id: '9527',
               name: '华安',
               age: '18'
@@ -45,7 +44,7 @@ export default {
           {
             groupName: '额外属性',
             isGroupExpanded: true,
-            props:{
+            props: {
               id: '9527',
               name: '华安',
               age: '18'
@@ -54,18 +53,17 @@ export default {
           {
             groupName: '拓展属性',
             isGroupExpanded: true,
-            props:{
+            props: {
               id: '9527',
               name: '华安',
               age: '18'
             }
           }
         ]
-        
       })
     }
   },
-  data: ()=>({
+  data: () => ({
 
   }),
   methods: {
@@ -111,7 +109,7 @@ export default {
           // border-top: 1px solid #ccc;
           // border-left: 1px solid #ccc;
           padding-left: 15px;
-          
+
           .item {
             margin: 0;
             text-align: left;
@@ -126,7 +124,6 @@ export default {
           }
         }
       }
-      
     }
     .panel-bottom {
       height: 100px;
