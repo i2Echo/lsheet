@@ -24,8 +24,8 @@
 // import SheetControls from '../schema/propertyDict.js'
 
 export default {
-  name: 'control-panel',
-
+  name: 'controlPanel',
+  componentName: 'controlPanel',
   props: {
     properties: {
       type: Object,

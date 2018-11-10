@@ -50,6 +50,7 @@ export function moveByDrag (obj, zIndex = '1000', isKeep = false, onMoving, onMo
   let disX, disY
   obj.onmousedown = function (e) {
     let ev = e || event
+    if(ev.button == 2) return false
     let timerHandle = null
     let cloneEle = null
     function down () {
@@ -70,6 +71,7 @@ export function moveByDrag (obj, zIndex = '1000', isKeep = false, onMoving, onMo
       obj.style.height = obj.clientHeight + 'px'
       obj.style.border = '2px dashed #29B6F6'
       obj.style.cursor = 'move'
+      obj.style.color = '#ccc'
 
       disX = ev.clientX - obj.offsetLeft
       disY = ev.clientY - obj.offsetTop

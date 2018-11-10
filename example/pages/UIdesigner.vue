@@ -1,35 +1,25 @@
 <template>
-  <div id="app">
-    <div class="app-wrapper">
-      <table-info></table-info>
-    </div>
+  <div id="uidesigner">
+    <Lsheet :sheetdataurl="sheetDataUrl" :sheetfieldsurl="sheetFieldsUrl" :iseditmode="true"></Lsheet>
   </div>
 </template>
 
 <script>
-import tableInfo from './pages/tableInfo'
 
 export default {
-  name: 'app',
-  components: {
-    tableInfo
-  },
+  name: 'UIdesigner',
   data () {
     return {
-
+      sheetDataUrl: '../src/schema/schemaa.json',
+      sheetFieldsUrl: '../src/schema/sheetFields.json',
+      // sheetFieldsUrl: '',
     }
-  },
-  created() {
-
-  },
-  methods: {
-
   }
 }
 </script>
 
 <style lang="scss">
-#app {
+#uidesigner {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -38,12 +28,6 @@ export default {
   // margin-top: 60px;
   width: 100%;
   height: 100vh;
-
-  .app-wrapper {
-    width: 100%;
-    height: 100vh;
-    padding: 100px 15px;
-  }
 }
 
 h1, h2 {

@@ -18,6 +18,7 @@
 <script>
 export default {
   name: 'tree',
+  componentName: 'tree',
   props: {
     text: String,
     fieldcode: String,

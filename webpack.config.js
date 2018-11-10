@@ -1,24 +1,14 @@
-var path = require('path')
-var webpack = require('webpack')
+const path = require('path')
+const webpack = require('webpack')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
-let entryPath, ext = {}
-if (process.env.NODE_ENV === 'production') {
-  entryPath = './src/index.js'
-  ext = {
-    vue: {
-      root: 'Vue',
-      commonjs: 'vue',
-      commonjs2: 'vue',
-      amd: 'vue'
-    }
-  }
-}else{
-  entryPath = './example/main.js'
-}
+const assetsSubDirectory = './static'
+
+const isProd = process.env.NODE_ENV === 'production'
 
 module.exports = {
   // entry: './src/main.js',
-  entry: entryPath,
+  entry: isProd ? './src/index.js' : './example/main.js',
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/dist/',
@@ -28,7 +18,14 @@ module.exports = {
     libraryTarget: 'umd',
     
   },
-  externals: ext,
+  externals: isProd ? 
+  { vue: {
+      root: 'Vue',
+      commonjs: 'vue',
+      commonjs2: 'vue',
+      amd: 'vue'
+    }
+  } : {},
   module: {
     rules: [
       {
@@ -115,7 +112,7 @@ module.exports = {
   devtool: '#eval-source-map'
 }
 
-if (process.env.NODE_ENV === 'production') {
+if (isProd) {
   module.exports.devtool = '#source-map'
   // http://vue-loader.vuejs.org/en/workflow/production.html
   module.exports.plugins = (module.exports.plugins || []).concat([
@@ -132,6 +129,13 @@ if (process.env.NODE_ENV === 'production') {
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: true
-    })
+    }),
+    new CopyWebpackPlugin([
+      {
+        from: path.resolve(__dirname, './static'),
+        to: assetsSubDirectory,
+        ignore: ['.*']
+      }
+    ])
   ])
 }

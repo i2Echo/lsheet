@@ -1,8 +1,10 @@
 <script>
 import components from '../../packages/index.js'
+import mixin from './mixins.js'
 
 export default {
   name: 'uControl',
+  componentName: 'uControl',
   components: components,
   render: function (createElement) {
     let that = this
@@ -13,6 +15,26 @@ export default {
     obj: {
       type: Object
     }
+  },
+  mixins: [mixin],
+  mounted: function () {
+    // console.log(this.$children)
+    
+  },
+  methods: {
+    getData: function () {
+      
+      if (this.obj.type == 'SheetLabel') return
+      console.log('getdata======run=======')
+      let childData = this.$children[0]
+      let controlData = {}
+      controlData[childData.fieldData.fieldId] = childData.fieldData.value
+      this.dispatch('Lsheet', 'getSheetAllValue', controlData)
+    }
+  },
+
+  created () {
+    this.$on('getData', this.getData)
   }
 }
 </script>

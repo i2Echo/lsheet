@@ -1,6 +1,6 @@
 
 <template>
-    <div :title="fieldData.displayText" tabindex="0" :id="fieldData.uid" data-type="sheetfield" class="ls-label">
+    <div :title="fieldData.displayText" tabindex="0" :id="fieldData.uid" data-type="sheetfield" :ref="fieldData.fieldId" class="ls-label">
       <!-- <label for=""> -->
         {{ fieldData.displayText }}
       <!-- </label>  -->

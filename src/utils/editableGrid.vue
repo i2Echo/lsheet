@@ -21,7 +21,7 @@
     </div>
     <div v-if="isFieldListExpanded" id="resizableFieldList" class="resizable-line"></div>
 
-    <div class="ls-main" @click.native="getFocusData">
+    <div class="ls-main">
       <div class="ls-header">
         <div class="ls-header__title"> {{sheetDisplayName}} </div>
         <div class="ls-header__action">
@@ -96,6 +96,7 @@ import {resizeByDrag, moveByDrag} from './drag.js'
 import {genUid, isBelong} from './helper.js'
 
 export default {
+  componentName: 'editableGrid',
   components: {
     contextMenu,
     gridRow,
@@ -160,7 +161,83 @@ export default {
     rowDataSplit: [{}, {}, {}, {}],
 
     isPropsPanelExpanded: false,
-    isFieldListExpanded: true
+    isFieldListExpanded: true,
+
+    typeToControls: {
+      ShortString: [
+        'SheetLabel',
+        'SheetTextBox',
+        'SheetDropDownList',
+        'SheetCheckboxList',
+        'SheetRadioButtonList',
+        'SheetInstancePrioritySelector',
+        'SheetInstanceNameEditor'
+      ],
+      String: [
+        'SheetLabel',
+        'SheetTextarea',
+        'SheetRelationInstance',
+      ],
+      Bool: [
+        'SheetLabel',
+        'SheetCheckBox',
+      ],
+      Int: [
+        'SheetLabel',
+        'SheetTextBox',
+        'SheetDropDownList',
+        'SheetRadioButtonList',
+      ],
+      Long: [
+        'SheetLabel',
+        'SheetTextBox',
+        'SheetDropDownList',
+        'SheetRadioButtonList',
+      ],
+      Double: [
+        'SheetLabel',
+        'SheetTextBox',
+        'SheetDropDownList',
+        'SheetRadioButtonList',
+      ], 
+      DateTime: [
+        'SheetLabel',
+        'SheetTime',
+      ],
+      Attachment: [
+        'SheetLabel',
+        'SheetAttachment',
+        'SheetOffice',
+      ],
+      Comment: [
+        'SheetLabel',
+        'SheetComment',
+      ],
+      SelectUser: [
+        'SheetLabel',
+        'SheetUser',
+      ],
+      TimeSpan: [
+        'SheetLabel',
+        'SheetTimeSpan',
+      ],
+      Decimal: [
+        'SheetLabel',
+        'SheetTextBox',
+      ],
+      HyperLink: [
+        'SheetLabel',
+        'SheetHyperLink',
+      ],
+      Html: [
+        'SheetLabel',
+        'SheetRichTextBox'
+      ],
+      BizObjectArray: [
+        'SheetLabel',
+        'SheetGridView'
+      ]
+    }
   }),
   props: {
     gridLayout: {
@@ -184,28 +261,83 @@ export default {
     sheetFields: {
       type: Object
     },
-    sheetDisplayName: ''
-  },
-  mounted () {
-    this.init()
-  },
-  updated () {
-    this.dragInit()
-    this.initDragResize()
+    sheetDisplayName: '',
+    isInitAuto: false
   },
   watch: {
 
   },
   computed: {
-
+    
   },
   methods: {
     init: function () {
+      if(this.isInitAuto) {
+        this.autoLayout()
+      }
       this.setupContextMenuData()
       this.dragInit()
       this.initDragResize()
     },
-
+    cleanData: function () {
+      let glen = this.gridLayout.length,
+          blen = this.blockDatas.length
+      this.gridLayout.splice(0, glen)
+      this.blockDatas.splice(0, blen)
+    },
+    autoLayout: function () {
+      // console.log('auto layout')
+      const MAX_SIZE = 12
+      let list = this.sheetFields.children
+      let rowLayout = []
+      let blockLayout = []
+      this.cleanData()
+      blockLayout.push(rowLayout)
+      this.gridLayout.push(blockLayout)
+      let rowData = []
+      let blockData = {'blockName': '基本信息', 'isExpanded': true, controls: [rowData]}
+      this.blockDatas.push(blockData)
+      let blockIndex = 0, rowIndex = 0, sizeCount = 0
+      for (let i = 0; i < list.length; i++) {
+        let size = 4
+        let constrolsType = this.typeToControls[list[i].dataType]
+        if(constrolsType[1] === 'SheetTextarea' || constrolsType[1] === 'SheetRichTextBox'){
+          size = 10
+        }
+        // console.log(constrolsType)
+        let labelData = {
+          'type': 'sheetLabel',
+          'fieldData': {
+            'displayText': list[i].text,
+            'fieldId': list[i].code,
+            'value': '',
+            'uid': genUid(list[i].code)
+          }
+        }
+        if(sizeCount + size + 2 > MAX_SIZE){
+          sizeCount = 0
+          rowIndex += 1
+          this.gridLayout[blockIndex].push([])
+          this.blockDatas[blockIndex].controls.push([])
+        }
+        this.gridLayout[blockIndex][rowIndex].push(2) // add label
+        this.blockDatas[blockIndex].controls[rowIndex].push(labelData) // add label control
+        sizeCount += 2
+        
+        let controlData = {
+          'type': constrolsType[1],
+          'fieldData': {
+            'displayText': list[i].text,
+            'fieldId': list[i].code,
+            'value': '',
+            'uid': genUid(list[i].code)
+          }
+        }
+        this.gridLayout[blockIndex][rowIndex].push(size) // add 
+        this.blockDatas[blockIndex].controls[rowIndex].push(controlData) // add control
+        sizeCount += size
+      }
+    },
     setupContextMenuData: function () {
       this.contextMenuDataForAddBlock.menulists.push(this.menuListTpl.addBlock)
       this.contextMenuDataForDelBlock.menulists.push(this.menuListTpl.deleteThisBlock)
@@ -357,7 +489,7 @@ export default {
         const dom = document.querySelector('.edit-mode')
         if (dom === null) return
         let checkArea = dom.querySelectorAll('.grid-border > div')
-
+        let scrollElem = dom.querySelector('.ls-content')
         // drag controls start
         const selector = '[data-type=sheetfield]'
         let elems = dom.querySelectorAll(selector)
@@ -418,7 +550,7 @@ export default {
             true,
             function () { // onMoving:
               for (let i = 0; i < checkArea.length; i++) {
-                if (isBelong(obj, checkArea[i])) {
+                if (isBelong(obj, checkArea[i], scrollElem)) {
                   if (checkArea[i].childElementCount === 0) {
                     checkArea[i].style.border = '2px dashed #1867c0'
                   } else {
@@ -431,7 +563,7 @@ export default {
             },
             function () { // onMoved:
               for (let i = 0; i < checkArea.length; i++) {
-                if (isBelong(obj, checkArea[i])) {
+                if (isBelong(obj, checkArea[i], scrollElem)) {
                   if (checkArea[i].childElementCount === 0) {
                     let from = obj.getAttribute('field')
                     let to = that.getGridPosition(checkArea[i])
@@ -453,6 +585,7 @@ export default {
 
     getFocusData: function () {
       console.log('click')
+      debugger
       let focusedElement = document.activeElement
       console.log(focusedElement)
     },
@@ -475,6 +608,13 @@ export default {
       ele.removeAttribute('style')
       this.isPropsPanelExpanded = !this.isPropsPanelExpanded
     }
+  },
+  mounted () {
+    this.init()
+  },
+  updated () {
+    this.dragInit()
+    this.initDragResize()
   }
 }
 </script>

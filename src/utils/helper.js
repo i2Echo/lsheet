@@ -10,17 +10,17 @@ export function genUid (field = 'uid') {
  * @param {*} elem
  * @param {*} target
  */
-export function isBelong (elem, target) {
+export function isBelong (elem, target, scrollElem) {
   let point = getCenterPoint(elem)
-  // console.log(point, target.offsetLeft, target.offsetTop)
-  let base = {left: target.offsetParent.offsetLeft, top: target.offsetParent.offsetTop}
+
+  let base = {left: target.offsetParent.offsetLeft - (scrollElem ? scrollElem.scrollLeft : 0), top: target.offsetParent.offsetTop - (scrollElem ? scrollElem.scrollTop : 0)}
   if (base.left + target.offsetLeft <= point.x &&
       base.top + target.offsetTop <= point.y &&
       base.left + target.offsetLeft + target.clientWidth >= point.x &&
       base.top + target.offsetTop + target.clientHeight >= point.y) {
     return true
   }
-  // console.log(base)
+
   return false
 }
 
